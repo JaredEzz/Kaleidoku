@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kaleidoku/sudoku_grid_widget.dart';
 
 class SudokuScreen extends StatefulWidget {
   const SudokuScreen({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class SudokuScreen extends StatefulWidget {
 
 class _SudokuScreenState extends State<SudokuScreen> {
   List<List<int>>? sudokuGrid;
+  List<List<int>>? solutionGrid;
   String selectedDifficulty = 'Medium';
   bool showNumbers = false;
 
@@ -27,20 +29,30 @@ class _SudokuScreenState extends State<SudokuScreen> {
         final grids = jsonResponse['newboard']['grids'];
 
         for (final grid in grids) {
-          final value = grid['value'];
+          final puzzle = grid['value'];
+          final solution = grid['solution'];
           final difficulty = grid['difficulty'];
 
           if (difficulty == selectedDifficulty) {
-            final convertedList =
-                List<List<int>>.generate(value.length, (int rowIndex) {
-              final row = value[rowIndex];
+            final convertedPuzzle =
+                List<List<int>>.generate(puzzle.length, (int rowIndex) {
+              final row = puzzle[rowIndex];
+              return List<int>.generate(row.length, (int colIndex) {
+                return row[colIndex] as int;
+              });
+            });
+
+            final convertedSolution =
+            List<List<int>>.generate(solution.length, (int rowIndex) {
+              final row = solution[rowIndex];
               return List<int>.generate(row.length, (int colIndex) {
                 return row[colIndex] as int;
               });
             });
 
             setState(() {
-              sudokuGrid = convertedList;
+              sudokuGrid = convertedPuzzle;
+              solutionGrid = convertedSolution;
             });
             puzzleFound = true;
             break;
@@ -55,19 +67,6 @@ class _SudokuScreenState extends State<SudokuScreen> {
       }
     }
   }
-
-  final Map<int, Color> colorLookup = {
-    0: Colors.transparent,
-    1: const Color(0xFFA02123),
-    2: const Color(0xFFC84929),
-    3: const Color(0xFFD1B806),
-    4: const Color(0xFF2E8423),
-    5: const Color(0xFF005B26),
-    6: const Color(0xFF73B5CF),
-    7: const Color(0xFF0D4E8A),
-    8: const Color(0xFF845585),
-    9: const Color(0xFF3F214D),
-  };
 
 
   @override
@@ -134,7 +133,6 @@ class _SudokuScreenState extends State<SudokuScreen> {
                 activeColor: Colors.green,
                 inactiveTrackColor: Colors.grey,
                 inactiveThumbColor: Colors.grey[300],
-                // thumbColor: showNumbers ? Colors.green : Colors.grey[300],
               ),
             ),
             Padding(
@@ -146,67 +144,24 @@ class _SudokuScreenState extends State<SudokuScreen> {
             ),
           ],
         ),
-        body: Center(
-          child: GridView.builder(
-            itemCount: 81,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 9,
+        body: ListView(
+          children: [
+            SudokuGridWidget(
+              grid: sudokuGrid!,
+              showNumbers: showNumbers,
             ),
-            itemBuilder: (BuildContext context, int index) {
-              final row = index ~/ 9;
-              final col = index % 9;
-              final number = sudokuGrid![row][col];
+            ExpansionTile(
+              title: Text('Solution'),
 
-              final rightBorderThick = (col == 2 || col == 5);
-              final leftBorderThick = (col == 3 || col == 6);
-              final bottomBorderThick = (row == 2 || row == 5);
-              final topBorderThick = (row == 3 || row == 6);
-              return Container(
-                decoration: BoxDecoration(
-                    border: Border(
-                  top: BorderSide(
-                    color: topBorderThick ? Colors.black : Colors.grey,
-                    width: topBorderThick ? 2.0 : 1.0,
-                  ),
-                  left: BorderSide(
-                    color: leftBorderThick ? Colors.black : Colors.grey,
-                    width: leftBorderThick ? 2.0 : 1.0,
-                  ),
-                  right: BorderSide(
-                    color: rightBorderThick ? Colors.black : Colors.grey,
-                    width: rightBorderThick ? 2.0 : 1.0,
-                  ),
-                  bottom: BorderSide(
-                    color: bottomBorderThick ? Colors.black : Colors.grey,
-                    width: bottomBorderThick ? 2.0 : 1.0,
-                  ),
-                )),
-                child: Center(
-                  child: Visibility(
-                    visible: number != 0,
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: colorLookup[number] ?? Colors.black,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          number.toString(),
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: showNumbers
-                                  ? Colors.white
-                                  : Colors.transparent),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+              initiallyExpanded: false,
+              children: <Widget>[
+                SudokuGridWidget(
+                  grid: solutionGrid!,
+                  showNumbers: showNumbers,
+                )
+              ],
+            ),
+          ],
         ),
       );
     }

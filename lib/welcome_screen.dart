@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kaleidoku/sudoku_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -9,22 +11,22 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Welcome to Kaleidoku',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             // add placeholder for logo and particle effects
             ElevatedButton(
               onPressed: () {
                 //navigate to sudoku screen
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => SudokuScreen()));
+                    MaterialPageRoute(builder: (_) => const SudokuScreen()));
               },
-              child: Text('Begin'),
+              child: const Text('Begin'),
             ),
           ],
         ),
