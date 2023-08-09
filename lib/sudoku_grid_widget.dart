@@ -84,16 +84,17 @@ class SudokuGridWidget extends StatelessWidget {
     );
   }
 
-  final Map<int, Color> colorLookup = const {
-    0: Colors.transparent,
-    1: Color(0xFFA02123),
-    2: Color(0xFFC84929),
-    3: Color(0xFFD1B806),
-    4: Color(0xFF2E8423),
-    5: Color(0xFF005B26),
-    6: Color(0xFF73B5CF),
-    7: Color(0xFF0D4E8A),
-    8: Color(0xFF845585),
-    9: Color(0xFF3F214D),
-  };
+
 }
+
+const Map<int, Color> colorLookup = {
+  1: Color(0xFFA02123),
+  2: Color(0xFFC84929),
+  3: Color(0xFFD1B806),
+  4: Color(0xFF2E8423),
+  5: Color(0xFF005B26),
+  6: Color(0xFF73B5CF),
+  7: Color(0xFF0D4E8A),
+  8: Color(0xFF845585),
+  9: Color(0xFF3F214D),
+};
