@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'graphql_client.dart';
+import 'package:kaleidoku/welcome_screen.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  final GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-
-  MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return GraphQLProvider(
-      client: graphQLConfiguration.myClient(),
-      child: CacheProvider(
-        child: MaterialApp(
-          title: 'Sudoku App',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: SudokuScreen(), // your main screen
-        ),
+    return MaterialApp(
+     debugShowCheckedModeBanner: false,
+      title: 'Kaleidoku',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: WelcomeScreen(),
     );
   }
 }
