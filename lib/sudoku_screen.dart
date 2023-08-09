@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class SudokuScreen extends StatefulWidget {
-  SudokuScreen({Key? key}) : super(key: key);
+  const SudokuScreen({Key? key}) : super(key: key);
 
   @override
   State<SudokuScreen> createState() => _SudokuScreenState();
@@ -13,6 +13,7 @@ class SudokuScreen extends StatefulWidget {
 class _SudokuScreenState extends State<SudokuScreen> {
   List<List<int>>? sudokuGrid;
   String selectedDifficulty = 'Medium';
+  bool showNumbers = false;
 
   Future<void> getPuzzle() async {
     bool puzzleFound = false;
@@ -25,14 +26,14 @@ class _SudokuScreenState extends State<SudokuScreen> {
         final jsonResponse = json.decode(response.body);
         final grids = jsonResponse['newboard']['grids'];
 
-        for (var grid in grids) {
+        for (final grid in grids) {
           final value = grid['value'];
           final difficulty = grid['difficulty'];
 
           if (difficulty == selectedDifficulty) {
-            List<List<int>> convertedList =
+            final convertedList =
                 List<List<int>>.generate(value.length, (int rowIndex) {
-              List<dynamic> row = value[rowIndex];
+              final row = value[rowIndex];
               return List<int>.generate(row.length, (int colIndex) {
                 return row[colIndex] as int;
               });
@@ -55,6 +56,26 @@ class _SudokuScreenState extends State<SudokuScreen> {
     }
   }
 
+  final Map<int, Color> colorLookup = {
+    0: Colors.transparent,
+    1: const Color(0xFFA02123),
+    2: const Color(0xFFC84929),
+    3: const Color(0xFFD1B806),
+    4: const Color(0xFF2E8423),
+    5: const Color(0xFF005B26),
+    6: const Color(0xFF73B5CF),
+    7: const Color(0xFF0D4E8A),
+    8: const Color(0xFF845585),
+    9: const Color(0xFF3F214D),
+  };
+
+
+  @override
+  void initState() {
+    getPuzzle();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (sudokuGrid == null) {
@@ -70,13 +91,20 @@ class _SudokuScreenState extends State<SudokuScreen> {
                     selectedDifficulty = newValue ?? "Medium";
                   });
                 },
-                items: <String>['Easy', 'Medium', 'Hard']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+                items: const <DropdownMenuItem<String>>[
+                  DropdownMenuItem<String>(
+                    value: 'Easy',
+                    child: Text('Easy'),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'Medium',
+                    child: Text('Medium'),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'Hard',
+                    child: Text('Hard'),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
               ElevatedButton(
@@ -92,9 +120,29 @@ class _SudokuScreenState extends State<SudokuScreen> {
         appBar: AppBar(
           title: const Text('Kaleidoku'),
           actions: [
-            IconButton(
-              onPressed: getPuzzle,
-              icon: const Icon(Icons.refresh),
+            Tooltip(
+              message: showNumbers ? 'Hide Numbers' : 'Show Numbers',
+
+              child: Switch(
+                value: showNumbers,
+                onChanged: (value) {
+                  setState(() {
+                    showNumbers = value;
+                  });
+                },
+                activeTrackColor: Colors.lightGreenAccent,
+                activeColor: Colors.green,
+                inactiveTrackColor: Colors.grey,
+                inactiveThumbColor: Colors.grey[300],
+                // thumbColor: showNumbers ? Colors.green : Colors.grey[300],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: IconButton(
+                onPressed: getPuzzle,
+                icon: const Icon(Icons.refresh),
+              ),
             ),
           ],
         ),
@@ -109,8 +157,6 @@ class _SudokuScreenState extends State<SudokuScreen> {
               final col = index % 9;
               final number = sudokuGrid![row][col];
 
-              // Check if the current cell is in the specified rows and columns
-              // if the column is 2 or 5, make the right border thick. If the column is 3 or 6, make the left border thick. If the row is 2 or 5, make the bottom border thick. If the row is 3 or 6, make the top border thick
               final rightBorderThick = (col == 2 || col == 5);
               final leftBorderThick = (col == 3 || col == 6);
               final bottomBorderThick = (row == 2 || row == 5);
@@ -120,27 +166,41 @@ class _SudokuScreenState extends State<SudokuScreen> {
                     border: Border(
                   top: BorderSide(
                     color: topBorderThick ? Colors.black : Colors.grey,
-                    width: topBorderThick ? 2.0 : 1.0, // Set the border width
+                    width: topBorderThick ? 2.0 : 1.0,
                   ),
                   left: BorderSide(
                     color: leftBorderThick ? Colors.black : Colors.grey,
-                    width: leftBorderThick ? 2.0 : 1.0, // Set the border width
+                    width: leftBorderThick ? 2.0 : 1.0,
                   ),
                   right: BorderSide(
                     color: rightBorderThick ? Colors.black : Colors.grey,
-                    width: rightBorderThick ? 2.0 : 1.0, // Set the border width
+                    width: rightBorderThick ? 2.0 : 1.0,
                   ),
                   bottom: BorderSide(
                     color: bottomBorderThick ? Colors.black : Colors.grey,
-                    width: bottomBorderThick ? 2.0 : 1.0, // Set the border width
+                    width: bottomBorderThick ? 2.0 : 1.0,
                   ),
                 )),
                 child: Center(
                   child: Visibility(
                     visible: number != 0,
-                    child: Text(
-                      number.toString(),
-                      style: const TextStyle(fontSize: 20),
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: colorLookup[number] ?? Colors.black,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          number.toString(),
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: showNumbers
+                                  ? Colors.white
+                                  : Colors.transparent),
+                        ),
+                      ),
                     ),
                   ),
                 ),
