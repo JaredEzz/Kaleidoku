@@ -109,10 +109,32 @@ class _SudokuScreenState extends State<SudokuScreen> {
               final col = index % 9;
               final number = sudokuGrid![row][col];
 
+              // Check if the current cell is in the specified rows and columns
+              // if the column is 2 or 5, make the right border thick. If the column is 3 or 6, make the left border thick. If the row is 2 or 5, make the bottom border thick. If the row is 3 or 6, make the top border thick
+              final rightBorderThick = (col == 2 || col == 5);
+              final leftBorderThick = (col == 3 || col == 6);
+              final bottomBorderThick = (row == 2 || row == 5);
+              final topBorderThick = (row == 3 || row == 6);
               return Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                ),
+                    border: Border(
+                  top: BorderSide(
+                    color: topBorderThick ? Colors.black : Colors.grey,
+                    width: topBorderThick ? 2.0 : 1.0, // Set the border width
+                  ),
+                  left: BorderSide(
+                    color: leftBorderThick ? Colors.black : Colors.grey,
+                    width: leftBorderThick ? 2.0 : 1.0, // Set the border width
+                  ),
+                  right: BorderSide(
+                    color: rightBorderThick ? Colors.black : Colors.grey,
+                    width: rightBorderThick ? 2.0 : 1.0, // Set the border width
+                  ),
+                  bottom: BorderSide(
+                    color: bottomBorderThick ? Colors.black : Colors.grey,
+                    width: bottomBorderThick ? 2.0 : 1.0, // Set the border width
+                  ),
+                )),
                 child: Center(
                   child: Visibility(
                     visible: number != 0,
