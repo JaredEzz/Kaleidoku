@@ -195,23 +195,23 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
                             top: BorderSide(
                               color:
                                   topBorderThick ? Colors.black : Colors.transparent,
-                              width: topBorderThick ? 2.0 : 1.0,
+                              width: topBorderThick ? 2.0 : 0,
                             ),
                             left: BorderSide(
                               color:
                                   leftBorderThick ? Colors.black : Colors.transparent,
-                              width: leftBorderThick ? 2.0 : 1.0,
+                              width: leftBorderThick ? 2.0 : 0,
                             ),
                             right: BorderSide(
                               color:
                                   rightBorderThick ? Colors.black : Colors.transparent,
-                              width: rightBorderThick ? 2.0 : 1.0,
+                              width: rightBorderThick ? 2.0 : 0,
                             ),
                             bottom: BorderSide(
                               color: bottomBorderThick
                                   ? Colors.black
                                   : Colors.transparent,
-                              width: bottomBorderThick ? 2.0 : 1.0,
+                              width: bottomBorderThick ? 2.0 : 0,
                             ),
                           ),
                         ),
@@ -221,8 +221,8 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
                               child: Visibility(
                                 visible: number != 0,
                                 child: SizedBox(
-                                  width: 50,
-                                  height: 50,
+                                  // width: 50,
+                                  // height: 50,
                                   child: Center(
                                     child: Text(
                                       number.toString(),
@@ -230,7 +230,15 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
                                           fontSize: 20,
                                           color: puzzleNumberColors[index],
                                           fontWeight:
-                                              puzzleNumberFontWeights[index]
+                                              puzzleNumberFontWeights[index],
+                                        shadows: [
+                                          if(puzzleNumberFontWeights[index] == FontWeight.bold)
+                                          BoxShadow(
+                                              color: puzzleNumberColors[index],
+                                              blurRadius: 1,
+                                              spreadRadius: 1
+                                          )
+                                        ]
                                       ),
                                     ),
                                   ),
