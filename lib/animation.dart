@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kaleidoku/sudoku_grid_widget.dart';
+import 'package:kaleidoku/sudoku_screen.dart';
 
 class KaleidokuAnimation extends StatefulWidget {
   const KaleidokuAnimation({Key? key}) : super(key: key);
@@ -20,7 +20,6 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
   final int numSeconds = 3;
   late AnimationController _glowAnimationController;
   late Animation _glowAnimation;
-  int test = 0;
   List<Color> puzzleNumberColors = List.filled(81, Colors.black38);
   List<FontWeight> puzzleNumberFontWeights = List.filled(81, FontWeight.normal);
   List<List<int>> solvedSudoku = [
@@ -34,7 +33,7 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
     [2, 8, 7, 4, 1, 9, 6, 3, 5],
     [3, 4, 5, 2, 8, 6, 1, 7, 9],
   ]; // TODO pick a random solved puzzle
-
+  int randomChoice = -1;
 
   @override
   void initState() {
@@ -74,14 +73,20 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
     puzzleNumberColors = List.filled(81, Colors.black38);
     puzzleNumberFontWeights = List.filled(81, FontWeight.normal);
     final random = Random();
-    List<Color> solvedSudokuNumberColors = solvedSudoku.expand((row) => row).map((int e) => colorLookup.values.toList()[e - 1]).toList();
+    List<Color> solvedSudokuNumberColors = solvedSudoku
+        .expand((row) => row)
+        .map((int e) => colorLookup.values.toList()[e - 1])
+        .toList();
 
-    final choice = random.nextInt(3);
+    late int choice;
+    do {
+      choice = random.nextInt(3);
+    } while (choice == randomChoice);
+    randomChoice = choice;
 
     switch (choice) {
       case (0):
         // change all colors for a random row
-      test = 0;
         final row = random.nextInt(9);
         for (int i = row * 9; i < (row + 1) * 9; i++) {
           puzzleNumberColors[i] = solvedSudokuNumberColors[i];
@@ -90,7 +95,6 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
         break;
       case (1):
         // change all colors for a random colum
-      test = 1;
         final col = random.nextInt(9);
         for (int i = col; i < 81; i += 9) {
           puzzleNumberColors[i] = solvedSudokuNumberColors[i];
@@ -98,7 +102,6 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
         }
         break;
       case (2):
-        test = 2;
         // change all colors for a random 3x3 square
         final row = random.nextInt(3);
         final col = random.nextInt(3);
@@ -169,7 +172,6 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
                 }).toList(),
               ),
             ),
-            Text(test.toString()),
             Flexible(
                 flex: 4,
                 child: Padding(
@@ -193,18 +195,21 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
                         decoration: BoxDecoration(
                           border: Border(
                             top: BorderSide(
-                              color:
-                                  topBorderThick ? Colors.black : Colors.transparent,
+                              color: topBorderThick
+                                  ? Colors.black
+                                  : Colors.transparent,
                               width: topBorderThick ? 2.0 : 0,
                             ),
                             left: BorderSide(
-                              color:
-                                  leftBorderThick ? Colors.black : Colors.transparent,
+                              color: leftBorderThick
+                                  ? Colors.black
+                                  : Colors.transparent,
                               width: leftBorderThick ? 2.0 : 0,
                             ),
                             right: BorderSide(
-                              color:
-                                  rightBorderThick ? Colors.black : Colors.transparent,
+                              color: rightBorderThick
+                                  ? Colors.black
+                                  : Colors.transparent,
                               width: rightBorderThick ? 2.0 : 0,
                             ),
                             bottom: BorderSide(
@@ -231,15 +236,16 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
                                           color: puzzleNumberColors[index],
                                           fontWeight:
                                               puzzleNumberFontWeights[index],
-                                        shadows: [
-                                          if(puzzleNumberFontWeights[index] == FontWeight.bold)
-                                          BoxShadow(
-                                              color: puzzleNumberColors[index],
-                                              blurRadius: 1,
-                                              spreadRadius: 1
-                                          )
-                                        ]
-                                      ),
+                                          shadows: [
+                                            if (puzzleNumberFontWeights[
+                                                    index] ==
+                                                FontWeight.bold)
+                                              BoxShadow(
+                                                  color:
+                                                      puzzleNumberColors[index],
+                                                  blurRadius: 1,
+                                                  spreadRadius: 1)
+                                          ]),
                                     ),
                                   ),
                                 ),
@@ -248,7 +254,31 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
                       );
                     },
                   ),
-                ))
+                )),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 80),
+              child: Flexible(
+                flex: 1,
+                child: Container(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      onPrimary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      //navigate to sudoku screen
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (_) => const SudokuScreen()));
+                    },
+                    child: const Text('Begin'),
+                  ),
+                ),
+              ),
+            ),
+
           ],
         ),
       ),
