@@ -176,109 +176,116 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
                 flex: 4,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: GridView.builder(
-                    itemCount: 81,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 9,
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      final row = index ~/ 9;
-                      final col = index % 9;
-                      final number = solvedSudoku[row][col];
-
-                      final rightBorderThick = (col == 2 || col == 5);
-                      final leftBorderThick = (col == 3 || col == 6);
-                      final bottomBorderThick = (row == 2 || row == 5);
-                      final topBorderThick = (row == 3 || row == 6);
-                      return Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            top: BorderSide(
-                              color: topBorderThick
-                                  ? Colors.black
-                                  : Colors.transparent,
-                              width: topBorderThick ? 2.0 : 0,
-                            ),
-                            left: BorderSide(
-                              color: leftBorderThick
-                                  ? Colors.black
-                                  : Colors.transparent,
-                              width: leftBorderThick ? 2.0 : 0,
-                            ),
-                            right: BorderSide(
-                              color: rightBorderThick
-                                  ? Colors.black
-                                  : Colors.transparent,
-                              width: rightBorderThick ? 2.0 : 0,
-                            ),
-                            bottom: BorderSide(
-                              color: bottomBorderThick
-                                  ? Colors.black
-                                  : Colors.transparent,
-                              width: bottomBorderThick ? 2.0 : 0,
-                            ),
+                  child: LayoutBuilder(
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      return SizedBox(
+                        width: constraints.maxWidth,
+                        height: constraints.maxHeight,
+                        child: GridView.builder(
+                          itemCount: 81,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 9,
                           ),
-                        ),
-                        child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Center(
-                              child: Visibility(
-                                visible: number != 0,
-                                child: SizedBox(
-                                  // width: 50,
-                                  // height: 50,
-                                  child: Center(
-                                    child: Text(
-                                      number.toString(),
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: puzzleNumberColors[index],
-                                          fontWeight:
-                                              puzzleNumberFontWeights[index],
-                                          shadows: [
-                                            if (puzzleNumberFontWeights[
-                                                    index] ==
-                                                FontWeight.bold)
-                                              BoxShadow(
+                          itemBuilder: (BuildContext context, int index) {
+                            final row = index ~/ 9;
+                            final col = index % 9;
+                            final number = solvedSudoku[row][col];
+
+                            final rightBorderThick = (col == 2 || col == 5);
+                            final leftBorderThick = (col == 3 || col == 6);
+                            final bottomBorderThick = (row == 2 || row == 5);
+                            final topBorderThick = (row == 3 || row == 6);
+                            return Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(
+                                    color: topBorderThick
+                                        ? Colors.black
+                                        : Colors.transparent,
+                                    width: topBorderThick ? 2.0 : 0,
+                                  ),
+                                  left: BorderSide(
+                                    color: leftBorderThick
+                                        ? Colors.black
+                                        : Colors.transparent,
+                                    width: leftBorderThick ? 2.0 : 0,
+                                  ),
+                                  right: BorderSide(
+                                    color: rightBorderThick
+                                        ? Colors.black
+                                        : Colors.transparent,
+                                    width: rightBorderThick ? 2.0 : 0,
+                                  ),
+                                  bottom: BorderSide(
+                                    color: bottomBorderThick
+                                        ? Colors.black
+                                        : Colors.transparent,
+                                    width: bottomBorderThick ? 2.0 : 0,
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Center(
+                                  child: Visibility(
+                                    visible: number != 0,
+                                    child: SizedBox(
+                                      child: Center(
+                                        child: Text(
+                                          number.toString(),
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: puzzleNumberColors[index],
+                                            fontWeight:
+                                                puzzleNumberFontWeights[index],
+                                            shadows: [
+                                              if (puzzleNumberFontWeights[
+                                                      index] ==
+                                                  FontWeight.bold)
+                                                BoxShadow(
                                                   color:
                                                       puzzleNumberColors[index],
                                                   blurRadius: 1,
-                                                  spreadRadius: 1)
-                                          ]),
+                                                  spreadRadius: 1,
+                                                ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            )),
+                            );
+                          },
+                        ),
                       );
                     },
                   ),
                 )),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 80),
-              child: Flexible(
-                flex: 1,
-                child: Container(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      onPrimary: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32.0),
-                      ),
+            Flexible(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 80),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.black,
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32.0),
                     ),
-                    onPressed: () {
-                      //navigate to sudoku screen
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (_) => const SudokuScreen()));
-                    },
-                    child: const Text('Begin'),
                   ),
+                  onPressed: () {
+                    //navigate to sudoku screen
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (_) => const SudokuScreen()));
+                  },
+                  child: const Text('Begin'),
                 ),
               ),
             ),
-
           ],
         ),
       ),
@@ -290,6 +297,7 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
     for (var controller in _controllers) {
       controller.dispose();
     }
+    _glowAnimationController.dispose(); // Dispose the glow animation controller
     super.dispose();
   }
 }
