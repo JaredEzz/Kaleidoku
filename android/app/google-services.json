@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "299307996451",
+    "project_id": "kaleidoku",
+    "storage_bucket": "kaleidoku.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299307996451:android:270d49a6d3bfaf5677e896",
+        "android_client_info": {
+          "package_name": "tech.jaredezz.kaleidoku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "299307996451-o3tju1mrcl0if57m1s511k0gtturvet4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBfeQ__HOvEO0arEjQlon6oOmZVUZu2ZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "299307996451-o3tju1mrcl0if57m1s511k0gtturvet4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
