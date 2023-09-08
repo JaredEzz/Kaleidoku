@@ -29,8 +29,6 @@ class PuzzleModel with _$PuzzleModel {
 class Newboard with _$Newboard {
   const factory Newboard({
     @HiveField(0) required List<Grid> grids,
-    @HiveField(1) required int results,
-    @HiveField(2) required String message,
   }) = _Newboard;
 
   factory Newboard.fromJson(Map<String, dynamic> json) =>
@@ -44,6 +42,7 @@ class Grid with _$Grid {
     @HiveField(0) required List<List<int>> value,
     @HiveField(1) required List<List<int>> solution,
     @HiveField(2) required String difficulty,
+    @HiveField(3) required int number,
   }) = _Grid;
 
   factory Grid.fromJson(Map<String, dynamic> json) => _$GridFromJson(json);

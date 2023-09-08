@@ -5,7 +5,7 @@ import 'package:kaleidoku/features/sudoku/models/puzzle_model.dart';
 
 class GetPuzzleApiService {
   Future<PuzzleModel> getPuzzle({required String selectedDifficulty}) async {
-    bool puzzleFound = false;
+    // bool puzzleFound = false;
 
     // while (!puzzleFound) {
     final response = await http.get(Uri.parse(

@@ -278,9 +278,9 @@ class KaleidokuAnimationState extends State<KaleidokuAnimation>
                     ),
                   ),
                   onPressed: () {
-                    //navigate to sudoku screen
-                    // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    //     builder: (_) => const SudokuScreen()));
+                    // navigate to sudoku screen
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (_) => const SudokuScreen()));
                   },
                   child: const Text('Begin'),
                 ),
