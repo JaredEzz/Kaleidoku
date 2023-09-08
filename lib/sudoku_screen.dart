@@ -43,7 +43,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
             });
 
             final convertedSolution =
-            List<List<int>>.generate(solution.length, (int rowIndex) {
+                List<List<int>>.generate(solution.length, (int rowIndex) {
               final row = solution[rowIndex];
               return List<int>.generate(row.length, (int colIndex) {
                 return row[colIndex] as int;
@@ -59,6 +59,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
           }
         }
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error: ${response.statusCode}'),
@@ -67,7 +68,6 @@ class _SudokuScreenState extends State<SudokuScreen> {
       }
     }
   }
-
 
   @override
   void initState() {
@@ -121,7 +121,6 @@ class _SudokuScreenState extends State<SudokuScreen> {
           actions: [
             Tooltip(
               message: showNumbers ? 'Hide Numbers' : 'Show Numbers',
-
               child: Switch(
                 value: showNumbers,
                 onChanged: (value) {
@@ -151,8 +150,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
               showNumbers: showNumbers,
             ),
             ExpansionTile(
-              title: Text('Solution'),
-
+              title: const Text('Solution'),
               initiallyExpanded: false,
               children: <Widget>[
                 SudokuGridWidget(

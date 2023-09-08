@@ -9,10 +9,10 @@ class KaleidokuAnimation extends StatefulWidget {
   const KaleidokuAnimation({Key? key}) : super(key: key);
 
   @override
-  _KaleidokuAnimationState createState() => _KaleidokuAnimationState();
+  KaleidokuAnimationState createState() => KaleidokuAnimationState();
 }
 
-class _KaleidokuAnimationState extends State<KaleidokuAnimation>
+class KaleidokuAnimationState extends State<KaleidokuAnimation>
     with TickerProviderStateMixin {
   late List<AnimationController> _controllers;
   final List<Animation<double>> _animations = [];
@@ -54,7 +54,7 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
       _controllers[i].forward();
     }
     _glowAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 2));
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
     _glowAnimationController.repeat(reverse: true);
     _glowAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.forward ||
@@ -271,8 +271,8 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
                 padding: const EdgeInsets.only(bottom: 80),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    onPrimary: Colors.white,
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(32.0),
                     ),

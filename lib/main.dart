@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:kaleidoku/welcome_screen.dart';
 
 import 'animation.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-     debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       title: 'Kaleidoku',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: KaleidokuAnimation(),
+      home: const KaleidokuAnimation(),
     );
   }
 }
