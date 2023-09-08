@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'animation.dart';
+import 'features/welcome_screen/widgets/animation.dart';
 
 void main() {
   runApp(const MyApp());

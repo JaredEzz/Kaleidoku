@@ -5,7 +5,7 @@ description: Kaleidoku is a vibrant Flutter application that offers Sudoku puzzl
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.19.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -18,6 +18,8 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   cupertino_icons: ^1.0.2
+  intl: ^0.18.1
+  logger: ^2.0.2
 
 dev_dependencies:
   flutter_test:

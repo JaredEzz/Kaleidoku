@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:kaleidoku/sudoku_grid_widget.dart';
+import 'package:kaleidoku/features/sudoku/widgets/sudoku_grid_widget.dart';
 
 class SudokuScreen extends StatefulWidget {
   const SudokuScreen({Key? key}) : super(key: key);

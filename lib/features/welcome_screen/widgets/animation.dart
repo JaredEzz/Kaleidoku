@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kaleidoku/sudoku_grid_widget.dart';
-import 'package:kaleidoku/sudoku_screen.dart';
+import 'package:kaleidoku/features/sudoku/widgets/sudoku_grid_widget.dart';
+import 'package:kaleidoku/features/sudoku/screens/sudoku_screen.dart';
 
 class KaleidokuAnimation extends StatefulWidget {
   const KaleidokuAnimation({Key? key}) : super(key: key);
