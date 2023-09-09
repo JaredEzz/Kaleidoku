@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:kaleidoku/features/sudoku/cubits/puzzle_cubits/cubit/puzzle_cubit.dart';
-import 'package:kaleidoku/features/sudoku/models/puzzle_model.dart';
-import 'package:kaleidoku/features/sudoku/services/local_services/puzzle_hive_service.dart';
-
+import 'package:kaleidoku/features/levels_screen/cubits/puzzle_cubits/cubit/puzzle_cubit.dart';
+import 'package:kaleidoku/features/levels_screen/models/puzzle_model.dart';
+import 'package:kaleidoku/features/levels_screen/services/local_services/puzzle_hive_service.dart';
 import 'features/welcome_screen/widgets/animation.dart';
 
 void main() async {

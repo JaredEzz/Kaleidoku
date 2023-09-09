@@ -1,17 +1,7 @@
-// To parse this JSON data, do
-//
-//     final puzzleModel = puzzleModelFromJson(jsonString);
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
 import 'package:hive_flutter/hive_flutter.dart';
 part 'puzzle_model.freezed.dart';
 part 'puzzle_model.g.dart';
-
-PuzzleModel puzzleModelFromJson(String str) =>
-    PuzzleModel.fromJson(json.decode(str));
-
-String puzzleModelToJson(PuzzleModel data) => json.encode(data.toJson());
 
 @HiveType(typeId: 0)
 @freezed

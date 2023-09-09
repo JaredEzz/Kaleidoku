@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kaleidoku/core/utils/logger.dart';
-import 'package:kaleidoku/features/sudoku/models/puzzle_model.dart';
-import 'package:kaleidoku/features/sudoku/services/local_services/puzzle_hive_service.dart';
+import 'package:kaleidoku/features/levels_screen/models/puzzle_model.dart';
+import 'package:kaleidoku/features/levels_screen/services/local_services/puzzle_hive_service.dart';
 part 'puzzle_state.dart';
 part 'puzzle_cubit.freezed.dart';
 
