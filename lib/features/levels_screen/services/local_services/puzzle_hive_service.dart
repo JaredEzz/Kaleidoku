@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kaleidoku/core/consts/puzzles_list.dart';
 import 'package:kaleidoku/core/utils/logger.dart';
@@ -8,7 +10,7 @@ class PuzzleHiveService {
   final _puzzles = Hive.box('puzzles');
   final _defaultPuzzlesAdded = Hive.box('defaultPuzzlesAdded');
 
-  Future<PuzzleModel> getPuzzles() async {
+  FutureOr<PuzzleModel> getPuzzles() async {
     final bool defaultPuzzlesAdded =
         _defaultPuzzlesAdded.get('defaultPuzzlesAdded', defaultValue: false);
 
