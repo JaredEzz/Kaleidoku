@@ -5,6 +5,7 @@ import 'package:kaleidoku/core/styles/text_styles.dart';
 import 'package:kaleidoku/features/levels_screen/models/puzzle_model.dart';
 import 'package:kaleidoku/features/levels_screen/utils/get_level_color.dart';
 import 'package:kaleidoku/features/sudoku_screen/screens/sudoku_screen.dart';
+import 'dart:math' as math;
 
 class LevelScreenBody extends StatefulWidget {
   const LevelScreenBody({super.key, required this.puzzles});
@@ -15,80 +16,105 @@ class LevelScreenBody extends StatefulWidget {
 }
 
 class _LevelScreenBodyState extends State<LevelScreenBody> {
+  late List<Grid> easyPuzzles;
+  late List<Grid> mediumPuzzles;
+  late List<Grid> hardPuzzles;
+
+  @override
+  void initState() {
+    easyPuzzles = widget.puzzles.newboard.grids
+        .where((puzzle) => puzzle.difficulty == "Easy")
+        .toList();
+
+    mediumPuzzles = widget.puzzles.newboard.grids
+        .where((puzzle) => puzzle.difficulty == "Medium")
+        .toList();
+
+    hardPuzzles = widget.puzzles.newboard.grids
+        .where((puzzle) => puzzle.difficulty == "Hard")
+        .toList();
+    super.initState();
+  }
+
+  Grid? getPuzzleByIndex(int index) {
+    int column = index % 3;
+    int row = index ~/ 3;
+
+    switch (column) {
+      case 0:
+        if (row < easyPuzzles.length) {
+          return easyPuzzles[row];
+        }
+        break;
+      case 1:
+        if (row < mediumPuzzles.length) {
+          return mediumPuzzles[row];
+        }
+        break;
+      case 2:
+        if (row < hardPuzzles.length) {
+          return hardPuzzles[row];
+        }
+        break;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Grid> orderedPuzzles = [];
-
-    int easyNumber = 1;
-    int mediumNumber = 1;
-    int hardNumber = 1;
-
-    for (int i = 1; i <= widget.puzzles.newboard.grids.length; i++) {
-      String difficulty;
-      int number;
-
-      if (i % 4 == 1 || i % 4 == 4) {
-        difficulty = 'Easy';
-        number = easyNumber++;
-      } else if (i % 4 == 2 || i % 4 == 3) {
-        difficulty = 'Medium';
-        number = mediumNumber++;
-      } else {
-        difficulty = 'Hard';
-        number = hardNumber++;
-      }
-
-      orderedPuzzles.add(Grid(
-          difficulty: difficulty,
-          number: number,
-          value: widget.puzzles.newboard.grids[i - 1].value,
-          solution: widget.puzzles.newboard.grids[i - 1].solution));
-    }
+    int maxListSize = [
+      easyPuzzles.length,
+      mediumPuzzles.length,
+      hardPuzzles.length
+    ].reduce(math.max);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: PaddingSizes.mdl),
-      child: Column(
-        children: [
-          GridView.builder(
-            shrinkWrap: true,
-            itemCount: orderedPuzzles.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              childAspectRatio: 1,
-              crossAxisSpacing: PaddingSizes.sm,
-              mainAxisSpacing: PaddingSizes.sm,
-            ),
-            itemBuilder: (context, index) {
-              final puzzleGrid = orderedPuzzles[index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) =>
-                              SudokuScreen(puzzleGrid: puzzleGrid)));
-                },
-                child: Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: getLevelColor(puzzleGrid),
-                  ),
-                  child: Center(
-                    child: Text(
-                      (index + 1).toString(),
-                      style: AppTextStyles()
-                          .mRegular
-                          .copyWith(color: Colors.black),
+        padding: const EdgeInsets.symmetric(horizontal: PaddingSizes.mdl),
+        child: SingleChildScrollView(
+          child: Column(children: [
+            GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: maxListSize * 3,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 0.8,
+                mainAxisExtent: 100,
+                crossAxisSpacing: PaddingSizes.sm,
+                mainAxisSpacing: PaddingSizes.sm,
+              ),
+              itemBuilder: (context, index) {
+                final puzzle = getPuzzleByIndex(index);
+                if (puzzle == null) {
+                  return Container();
+                }
+
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) =>
+                                SudokuScreen(puzzleGrid: puzzle)));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: getLevelColor(puzzle),
+                    ),
+                    child: Center(
+                      child: Text(
+                        (index + 1).toString(),
+                        style: AppTextStyles()
+                            .mRegular
+                            .copyWith(color: Colors.black),
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          )
-        ],
-      ),
-    );
+                );
+              },
+            )
+          ]),
+        ));
   }
 }
