@@ -1,0 +1,26 @@
+name: GPT Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  workflow_dispatch:
+  pull_request_review_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+    steps:
+      - uses: coderabbitai/ai-pr-reviewer@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        with:
+          debug: true
+          review_simple_changes: false
+          review_comment_lgtm: false
