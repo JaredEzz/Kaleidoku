@@ -9,6 +9,7 @@ import 'dart:math' as math;
 
 class LevelScreenBody extends StatefulWidget {
   const LevelScreenBody({super.key, required this.puzzles});
+
   final PuzzleModel puzzles;
 
   @override
@@ -113,6 +114,40 @@ class _LevelScreenBodyState extends State<LevelScreenBody> {
                   ),
                 );
               },
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    //TODO change to puzzle of the day, generate a new puzzle from api on demand
+                    CupertinoPageRoute(
+                        builder: (context) => SudokuScreen(
+                                puzzleGrid: Grid(
+                              difficulty: "unknown",
+                              number: 0,
+                              solution: const [],
+                              value: const [],
+                            ))));
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  padding: const EdgeInsets.all(PaddingSizes.lg),
+                  decoration: const BoxDecoration(
+                    color: Colors.blueGrey,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Puzzle of the Day",
+                      style:
+                          AppTextStyles().mRegular.copyWith(color: Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 60,
             )
           ]),
         ));
