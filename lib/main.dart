@@ -4,6 +4,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kaleidoku/features/levels_screen/cubits/puzzle_cubits/cubit/puzzle_cubit.dart';
 import 'package:kaleidoku/features/levels_screen/models/puzzle_model.dart';
 import 'package:kaleidoku/features/levels_screen/services/local_services/puzzle_hive_service.dart';
+import 'package:kaleidoku/features/settings_screen/cubits/cubit/app_settings_cubit.dart';
+import 'package:kaleidoku/features/settings_screen/services/local_services/settings_hive_service.dart';
 import 'features/welcome_screen/widgets/animation.dart';
 
 void main() async {
@@ -16,29 +18,63 @@ Future<void> setupHive() async {
   await Hive.initFlutter();
   await Hive.openBox('puzzles');
   await Hive.openBox('defaultPuzzlesAdded');
+  await Hive.openBox('appSettings');
   Hive.registerAdapter(PuzzleModelAdapter());
   Hive.registerAdapter(NewboardAdapter());
   Hive.registerAdapter(GridAdapter());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  void fetchAppTheme(BuildContext context) {
+    context.read<AppSettingsCubit>().getAppSettings();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-            create: (context) =>
-                PuzzleCubit(puzzleHiveService: PuzzleHiveService())),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Kaleidoku',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+        BlocProvider<PuzzleCubit>(
+          create: (context) =>
+              PuzzleCubit(puzzleHiveService: PuzzleHiveService()),
         ),
-        home: const KaleidokuAnimation(),
+        BlocProvider<AppSettingsCubit>(
+            create: (context) =>
+                AppSettingsCubit(service: SettingsHiveService())),
+      ],
+      child: Builder(
+        builder: (innerContext) {
+          fetchAppTheme(innerContext);
+          return BlocBuilder<AppSettingsCubit, AppSettingsState>(
+            buildWhen: (previous, current) => true,
+            builder: (innerContext, state) {
+              ThemeData themeData = ThemeData(
+                  primarySwatch: Colors.green, brightness: Brightness.light);
+              state.whenOrNull(
+                success: (appSettings) {
+                  if (appSettings.isDarkTheme) {
+                    themeData = ThemeData(
+                      primarySwatch: Colors.green,
+                      brightness: Brightness.dark,
+                    );
+                  }
+                },
+              );
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Kaleidoku',
+                theme: themeData,
+                home: const KaleidokuAnimation(),
+              );
+            },
+          );
+        },
       ),
     );
   }

@@ -1,5 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tech.jaredezz.kaleidoku">
+
+    <queries>
+      <intent>
+        <action android:name="android.intent.action.SENDTO" />
+        <data android:scheme="mailto" />
+      </intent>
+    </queries>
    <application
         android:label="kaleidoku"
         android:icon="@mipmap/ic_launcher">

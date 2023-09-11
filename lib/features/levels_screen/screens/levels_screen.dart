@@ -26,15 +26,9 @@ class _LevelsScreenState extends State<LevelsScreen> {
       body: BlocBuilder<PuzzleCubit, PuzzleState>(
         builder: (context, state) {
           return state.maybeWhen(
-              error: (message) => Center(
-                    child: Text(message.toString()),
-                  ),
-              success: ((puzzles) => LevelScreenBody(
-                    puzzles: puzzles,
-                  )),
-              orElse: () => const Center(
-                    child: Text('Something went wrong'),
-                  ));
+              error: (message) => Center(child: Text(message.toString())),
+              success: ((puzzles) => LevelScreenBody(puzzles: puzzles)),
+              orElse: () => const Center(child: Text('Something went wrong')));
         },
       ),
     );
