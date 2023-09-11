@@ -176,10 +176,6 @@ Newboard _$NewboardFromJson(Map<String, dynamic> json) {
 mixin _$Newboard {
   @HiveField(0)
   List<Grid> get grids => throw _privateConstructorUsedError;
-  @HiveField(1)
-  int get results => throw _privateConstructorUsedError;
-  @HiveField(2)
-  String get message => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -192,10 +188,7 @@ abstract class $NewboardCopyWith<$Res> {
   factory $NewboardCopyWith(Newboard value, $Res Function(Newboard) then) =
       _$NewboardCopyWithImpl<$Res, Newboard>;
   @useResult
-  $Res call(
-      {@HiveField(0) List<Grid> grids,
-      @HiveField(1) int results,
-      @HiveField(2) String message});
+  $Res call({@HiveField(0) List<Grid> grids});
 }
 
 /// @nodoc
@@ -212,22 +205,12 @@ class _$NewboardCopyWithImpl<$Res, $Val extends Newboard>
   @override
   $Res call({
     Object? grids = null,
-    Object? results = null,
-    Object? message = null,
   }) {
     return _then(_value.copyWith(
       grids: null == grids
           ? _value.grids
           : grids // ignore: cast_nullable_to_non_nullable
               as List<Grid>,
-      results: null == results
-          ? _value.results
-          : results // ignore: cast_nullable_to_non_nullable
-              as int,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 }
@@ -239,10 +222,7 @@ abstract class _$$_NewboardCopyWith<$Res> implements $NewboardCopyWith<$Res> {
       __$$_NewboardCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@HiveField(0) List<Grid> grids,
-      @HiveField(1) int results,
-      @HiveField(2) String message});
+  $Res call({@HiveField(0) List<Grid> grids});
 }
 
 /// @nodoc
@@ -257,22 +237,12 @@ class __$$_NewboardCopyWithImpl<$Res>
   @override
   $Res call({
     Object? grids = null,
-    Object? results = null,
-    Object? message = null,
   }) {
     return _then(_$_Newboard(
       grids: null == grids
           ? _value._grids
           : grids // ignore: cast_nullable_to_non_nullable
               as List<Grid>,
-      results: null == results
-          ? _value.results
-          : results // ignore: cast_nullable_to_non_nullable
-              as int,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -280,10 +250,7 @@ class __$$_NewboardCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Newboard implements _Newboard {
-  const _$_Newboard(
-      {@HiveField(0) required final List<Grid> grids,
-      @HiveField(1) required this.results,
-      @HiveField(2) required this.message})
+  const _$_Newboard({@HiveField(0) required final List<Grid> grids})
       : _grids = grids;
 
   factory _$_Newboard.fromJson(Map<String, dynamic> json) =>
@@ -299,15 +266,8 @@ class _$_Newboard implements _Newboard {
   }
 
   @override
-  @HiveField(1)
-  final int results;
-  @override
-  @HiveField(2)
-  final String message;
-
-  @override
   String toString() {
-    return 'Newboard(grids: $grids, results: $results, message: $message)';
+    return 'Newboard(grids: $grids)';
   }
 
   @override
@@ -315,15 +275,13 @@ class _$_Newboard implements _Newboard {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Newboard &&
-            const DeepCollectionEquality().equals(other._grids, _grids) &&
-            (identical(other.results, results) || other.results == results) &&
-            (identical(other.message, message) || other.message == message));
+            const DeepCollectionEquality().equals(other._grids, _grids));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_grids), results, message);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_grids));
 
   @JsonKey(ignore: true)
   @override
@@ -340,22 +298,14 @@ class _$_Newboard implements _Newboard {
 }
 
 abstract class _Newboard implements Newboard {
-  const factory _Newboard(
-      {@HiveField(0) required final List<Grid> grids,
-      @HiveField(1) required final int results,
-      @HiveField(2) required final String message}) = _$_Newboard;
+  const factory _Newboard({@HiveField(0) required final List<Grid> grids}) =
+      _$_Newboard;
 
   factory _Newboard.fromJson(Map<String, dynamic> json) = _$_Newboard.fromJson;
 
   @override
   @HiveField(0)
   List<Grid> get grids;
-  @override
-  @HiveField(1)
-  int get results;
-  @override
-  @HiveField(2)
-  String get message;
   @override
   @JsonKey(ignore: true)
   _$$_NewboardCopyWith<_$_Newboard> get copyWith =>
@@ -374,6 +324,8 @@ mixin _$Grid {
   List<List<int>> get solution => throw _privateConstructorUsedError;
   @HiveField(2)
   String get difficulty => throw _privateConstructorUsedError;
+  @HiveField(3)
+  int get number => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -388,7 +340,8 @@ abstract class $GridCopyWith<$Res> {
   $Res call(
       {@HiveField(0) List<List<int>> value,
       @HiveField(1) List<List<int>> solution,
-      @HiveField(2) String difficulty});
+      @HiveField(2) String difficulty,
+      @HiveField(3) int number});
 }
 
 /// @nodoc
@@ -407,6 +360,7 @@ class _$GridCopyWithImpl<$Res, $Val extends Grid>
     Object? value = null,
     Object? solution = null,
     Object? difficulty = null,
+    Object? number = null,
   }) {
     return _then(_value.copyWith(
       value: null == value
@@ -421,6 +375,10 @@ class _$GridCopyWithImpl<$Res, $Val extends Grid>
           ? _value.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
               as String,
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -434,7 +392,8 @@ abstract class _$$_GridCopyWith<$Res> implements $GridCopyWith<$Res> {
   $Res call(
       {@HiveField(0) List<List<int>> value,
       @HiveField(1) List<List<int>> solution,
-      @HiveField(2) String difficulty});
+      @HiveField(2) String difficulty,
+      @HiveField(3) int number});
 }
 
 /// @nodoc
@@ -449,6 +408,7 @@ class __$$_GridCopyWithImpl<$Res> extends _$GridCopyWithImpl<$Res, _$_Grid>
     Object? value = null,
     Object? solution = null,
     Object? difficulty = null,
+    Object? number = null,
   }) {
     return _then(_$_Grid(
       value: null == value
@@ -463,6 +423,10 @@ class __$$_GridCopyWithImpl<$Res> extends _$GridCopyWithImpl<$Res, _$_Grid>
           ? _value.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
               as String,
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -473,7 +437,8 @@ class _$_Grid implements _Grid {
   const _$_Grid(
       {@HiveField(0) required final List<List<int>> value,
       @HiveField(1) required final List<List<int>> solution,
-      @HiveField(2) required this.difficulty})
+      @HiveField(2) required this.difficulty,
+      @HiveField(3) required this.number})
       : _value = value,
         _solution = solution;
 
@@ -500,10 +465,13 @@ class _$_Grid implements _Grid {
   @override
   @HiveField(2)
   final String difficulty;
+  @override
+  @HiveField(3)
+  final int number;
 
   @override
   String toString() {
-    return 'Grid(value: $value, solution: $solution, difficulty: $difficulty)';
+    return 'Grid(value: $value, solution: $solution, difficulty: $difficulty, number: $number)';
   }
 
   @override
@@ -514,7 +482,8 @@ class _$_Grid implements _Grid {
             const DeepCollectionEquality().equals(other._value, _value) &&
             const DeepCollectionEquality().equals(other._solution, _solution) &&
             (identical(other.difficulty, difficulty) ||
-                other.difficulty == difficulty));
+                other.difficulty == difficulty) &&
+            (identical(other.number, number) || other.number == number));
   }
 
   @JsonKey(ignore: true)
@@ -523,7 +492,8 @@ class _$_Grid implements _Grid {
       runtimeType,
       const DeepCollectionEquality().hash(_value),
       const DeepCollectionEquality().hash(_solution),
-      difficulty);
+      difficulty,
+      number);
 
   @JsonKey(ignore: true)
   @override
@@ -543,7 +513,8 @@ abstract class _Grid implements Grid {
   const factory _Grid(
       {@HiveField(0) required final List<List<int>> value,
       @HiveField(1) required final List<List<int>> solution,
-      @HiveField(2) required final String difficulty}) = _$_Grid;
+      @HiveField(2) required final String difficulty,
+      @HiveField(3) required final int number}) = _$_Grid;
 
   factory _Grid.fromJson(Map<String, dynamic> json) = _$_Grid.fromJson;
 
@@ -556,6 +527,9 @@ abstract class _Grid implements Grid {
   @override
   @HiveField(2)
   String get difficulty;
+  @override
+  @HiveField(3)
+  int get number;
   @override
   @JsonKey(ignore: true)
   _$$_GridCopyWith<_$_Grid> get copyWith => throw _privateConstructorUsedError;

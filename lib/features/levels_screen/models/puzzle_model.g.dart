@@ -54,21 +54,15 @@ class NewboardAdapter extends TypeAdapter<Newboard> {
     };
     return Newboard(
       grids: (fields[0] as List).cast<Grid>(),
-      results: fields[1] as int,
-      message: fields[2] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Newboard obj) {
     writer
-      ..writeByte(3)
-      ..writeByte(0)
-      ..write(obj.grids)
       ..writeByte(1)
-      ..write(obj.results)
-      ..writeByte(2)
-      ..write(obj.message);
+      ..writeByte(0)
+      ..write(obj.grids);
   }
 
   @override
@@ -100,19 +94,22 @@ class GridAdapter extends TypeAdapter<Grid> {
           .map((dynamic e) => (e as List).cast<int>())
           .toList(),
       difficulty: fields[2] as String,
+      number: fields[3] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Grid obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.value)
       ..writeByte(1)
       ..write(obj.solution)
       ..writeByte(2)
-      ..write(obj.difficulty);
+      ..write(obj.difficulty)
+      ..writeByte(3)
+      ..write(obj.number);
   }
 
   @override
@@ -144,15 +141,11 @@ _$_Newboard _$$_NewboardFromJson(Map<String, dynamic> json) => _$_Newboard(
       grids: (json['grids'] as List<dynamic>)
           .map((e) => Grid.fromJson(e as Map<String, dynamic>))
           .toList(),
-      results: json['results'] as int,
-      message: json['message'] as String,
     );
 
 Map<String, dynamic> _$$_NewboardToJson(_$_Newboard instance) =>
     <String, dynamic>{
       'grids': instance.grids,
-      'results': instance.results,
-      'message': instance.message,
     };
 
 _$_Grid _$$_GridFromJson(Map<String, dynamic> json) => _$_Grid(
@@ -163,10 +156,12 @@ _$_Grid _$$_GridFromJson(Map<String, dynamic> json) => _$_Grid(
           .map((e) => (e as List<dynamic>).map((e) => e as int).toList())
           .toList(),
       difficulty: json['difficulty'] as String,
+      number: json['number'] as int,
     );
 
 Map<String, dynamic> _$$_GridToJson(_$_Grid instance) => <String, dynamic>{
       'value': instance.value,
       'solution': instance.solution,
       'difficulty': instance.difficulty,
+      'number': instance.number,
     };

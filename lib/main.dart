@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:kaleidoku/features/levels_screen/cubits/puzzle_cubits/cubit/puzzle_cubit.dart';
+import 'package:kaleidoku/features/levels_screen/models/puzzle_model.dart';
+import 'package:kaleidoku/features/levels_screen/services/local_services/puzzle_hive_service.dart';
 import 'features/welcome_screen/widgets/animation.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupHive();
   runApp(const MyApp());
+}
+
+Future<void> setupHive() async {
+  await Hive.initFlutter();
+  await Hive.openBox('puzzles');
+  await Hive.openBox('defaultPuzzlesAdded');
+  Hive.registerAdapter(PuzzleModelAdapter());
+  Hive.registerAdapter(NewboardAdapter());
+  Hive.registerAdapter(GridAdapter());
 }
 
 class MyApp extends StatelessWidget {
@@ -11,13 +26,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Kaleidoku',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (context) =>
+                PuzzleCubit(puzzleHiveService: PuzzleHiveService())),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Kaleidoku',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const KaleidokuAnimation(),
       ),
-      home: const KaleidokuAnimation(),
     );
   }
 }

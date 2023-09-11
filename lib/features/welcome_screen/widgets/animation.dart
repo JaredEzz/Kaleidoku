@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kaleidoku/features/sudoku/widgets/sudoku_grid_widget.dart';
-import 'package:kaleidoku/features/sudoku/screens/sudoku_screen.dart';
+import 'package:kaleidoku/features/levels_screen/screens/levels_screen.dart';
+import 'package:kaleidoku/features/sudoku_screen/widgets/sudoku_grid_widget.dart';
 
 class KaleidokuAnimation extends StatefulWidget {
   const KaleidokuAnimation({Key? key}) : super(key: key);
@@ -278,9 +278,9 @@ class KaleidokuAnimationState extends State<KaleidokuAnimation>
                     ),
                   ),
                   onPressed: () {
-                    //navigate to sudoku screen
-                    // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    //     builder: (_) => const SudokuScreen()));
+                    // navigate to sudoku screen
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (_) => const LevelsScreen()));
                   },
                   child: const Text('Begin'),
                 ),
