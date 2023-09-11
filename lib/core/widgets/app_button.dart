@@ -44,7 +44,8 @@ class AppButton extends StatelessWidget {
       child: ClipRRect(
         borderRadius: kStandardBorderRadius,
         child: Container(
-          width: width ?? MediaQuery.sizeOf(context).width * 0.4,
+          width:
+              width ?? MediaQuery.sizeOf(context).width * kDefaultButtonWidth,
           height: height,
           decoration: boxDecoration ??
               BoxDecoration(

@@ -4,6 +4,7 @@ const kPageMargin = EdgeInsets.symmetric(
     vertical: PaddingSizes.xs, horizontal: PaddingSizes.sm);
 
 final kStandardBorderRadius = BorderRadius.circular(BorderRadiusSizes.md);
+const kDefaultButtonWidth = 0.4;
 
 abstract class PaddingSizes {
   const PaddingSizes._();
