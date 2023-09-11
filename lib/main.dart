@@ -8,15 +8,17 @@ import 'features/welcome_screen/widgets/animation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await setupHive();
+  runApp(const MyApp());
+}
+
+Future<void> setupHive() async {
   await Hive.initFlutter();
   await Hive.openBox('puzzles');
   await Hive.openBox('defaultPuzzlesAdded');
-  // await Hive.deleteBoxFromDisk('puzzles');
-  // await Hive.deleteBoxFromDisk('defaultPuzzlesAdded');
   Hive.registerAdapter(PuzzleModelAdapter());
   Hive.registerAdapter(NewboardAdapter());
   Hive.registerAdapter(GridAdapter());
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -24,8 +26,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PuzzleCubit(puzzleHiveService: PuzzleHiveService()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (context) =>
+                PuzzleCubit(puzzleHiveService: PuzzleHiveService())),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Kaleidoku',

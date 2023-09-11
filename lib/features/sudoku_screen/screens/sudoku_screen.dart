@@ -17,8 +17,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: BlocBuilder<PuzzleCubit, PuzzleState>(builder: ((context, state) {
+    return BlocBuilder<PuzzleCubit, PuzzleState>(builder: ((context, state) {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Kaleidoku'),
@@ -59,6 +58,6 @@ class _SudokuScreenState extends State<SudokuScreen> {
           ],
         ),
       );
-    })));
+    }));
   }
 }

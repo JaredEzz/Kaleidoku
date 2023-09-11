@@ -20,6 +20,7 @@ class PuzzleCubit extends Cubit<PuzzleState> {
       logger.d('Successfully fetched puzzles from Hive');
     } catch (e, st) {
       logger.d('Failed to fetch puzzles from Hive', error: e, stackTrace: st);
+      emit(PuzzleState.error(e.toString()));
     }
   }
 }

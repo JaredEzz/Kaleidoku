@@ -5,8 +5,7 @@ import 'package:kaleidoku/features/levels_screen/cubits/puzzle_cubits/cubit/puzz
 import 'package:kaleidoku/features/levels_screen/screens/levels_screen_body.dart';
 
 class LevelsScreen extends StatefulWidget {
-  const LevelsScreen({super.key});
-
+  const LevelsScreen({Key? key}) : super(key: key);
   @override
   State<LevelsScreen> createState() => _LevelsScreenState();
 }
@@ -14,8 +13,8 @@ class LevelsScreen extends StatefulWidget {
 class _LevelsScreenState extends State<LevelsScreen> {
   @override
   void initState() {
-    context.read<PuzzleCubit>().getPuzzles();
     super.initState();
+    context.read<PuzzleCubit>().getPuzzles();
   }
 
   @override

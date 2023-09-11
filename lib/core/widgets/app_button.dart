@@ -14,7 +14,7 @@ class AppButton extends StatelessWidget {
     this.width,
     this.height,
     this.padding,
-    this.secondary = false,
+    this.isSecondayColor = false,
     this.loading = false,
     this.enabled = true,
     this.boxDecoration,
@@ -29,7 +29,7 @@ class AppButton extends StatelessWidget {
   final double? height;
   final Color? color;
   final Color? titleColor;
-  final bool secondary;
+  final bool isSecondayColor;
   final double? fontSize;
   final Widget? titleWidget;
   final bool loading;
@@ -52,7 +52,7 @@ class AppButton extends StatelessWidget {
                       width: 2,
                       color: (color ?? Theme.of(context).colorScheme.primary)
                           .withOpacity((onTap != null && enabled) ? 1 : 0.2)),
-                  color: secondary
+                  color: isSecondayColor
                       ? null
                       : (color ?? context.primaryColor)
                           .withOpacity((onTap != null && enabled) ? 1 : 0.5),
@@ -78,7 +78,7 @@ class AppButton extends StatelessWidget {
                             style: textStyle ??
                                 context.textStyles.sThick.copyWith(
                                   fontSize: fontSize,
-                                  color: secondary
+                                  color: isSecondayColor
                                       ? titleColor ?? context.primaryColor
                                       : titleColor ?? Colors.white,
                                 )),
