@@ -2,17 +2,17 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kaleidoku/sudoku_grid_widget.dart';
-import 'package:kaleidoku/sudoku_screen.dart';
+import 'package:kaleidoku/features/sudoku/widgets/sudoku_grid_widget.dart';
+import 'package:kaleidoku/features/sudoku/screens/sudoku_screen.dart';
 
 class KaleidokuAnimation extends StatefulWidget {
   const KaleidokuAnimation({Key? key}) : super(key: key);
 
   @override
-  _KaleidokuAnimationState createState() => _KaleidokuAnimationState();
+  KaleidokuAnimationState createState() => KaleidokuAnimationState();
 }
 
-class _KaleidokuAnimationState extends State<KaleidokuAnimation>
+class KaleidokuAnimationState extends State<KaleidokuAnimation>
     with TickerProviderStateMixin {
   late List<AnimationController> _controllers;
   final List<Animation<double>> _animations = [];
@@ -54,7 +54,7 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
       _controllers[i].forward();
     }
     _glowAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 2));
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
     _glowAnimationController.repeat(reverse: true);
     _glowAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.forward ||
@@ -271,16 +271,16 @@ class _KaleidokuAnimationState extends State<KaleidokuAnimation>
                 padding: const EdgeInsets.only(bottom: 80),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    onPrimary: Colors.white,
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(32.0),
                     ),
                   ),
                   onPressed: () {
                     //navigate to sudoku screen
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (_) => const SudokuScreen()));
+                    // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    //     builder: (_) => const SudokuScreen()));
                   },
                   child: const Text('Begin'),
                 ),
