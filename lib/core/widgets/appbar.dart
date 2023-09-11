@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaleidoku/core/styles/text_styles.dart';
+import 'package:kaleidoku/features/levels_screen/screens/levels_screen.dart';
 import 'package:kaleidoku/features/settings_screen/screens/settings_screen.dart';
-import 'package:kaleidoku/features/welcome_screen/screens/welcome_screen.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -42,7 +42,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Navigator.pushAndRemoveUntil(
                     context,
                     CupertinoPageRoute(
-                        builder: (context) => const WelcomeScreen()),
+                        builder: (context) => const LevelsScreen()),
                     (route) => false);
               },
             )

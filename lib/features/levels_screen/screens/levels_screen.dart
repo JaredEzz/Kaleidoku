@@ -22,6 +22,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
     return Scaffold(
       appBar: const MyAppBar(
         title: 'Levels',
+        showMenuButton: false,
       ),
       body: BlocBuilder<PuzzleCubit, PuzzleState>(
         builder: (context, state) {
