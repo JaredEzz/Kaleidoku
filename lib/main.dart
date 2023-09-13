@@ -29,6 +29,7 @@ Future<void> setupHive() async {
     await Hive.openBox('puzzles');
     await Hive.openBox('defaultPuzzlesAdded');
     await Hive.openBox('appSettings');
+    await Hive.openBox('appSettings');
     await Hive.openBox('puzzleOfTheDay');
     Hive.registerAdapter(PuzzleModelAdapter());
     Hive.registerAdapter(NewboardAdapter());

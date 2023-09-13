@@ -20,7 +20,8 @@ class SettingsHiveService {
   }
 
   Future<void> updateNotificationsTime(DateTime time) async {
-    await _updateSettings({"notificationsTime": time.millisecondsSinceEpoch});
+    await _updateSettings(
+        {"notificationsTime": time.millisecondsSinceEpoch.toString()});
   }
 
   Future<void> updateNotifications(bool value) async {
@@ -35,7 +36,7 @@ class SettingsHiveService {
     final defaultSettings = {
       "isDarkTheme": false,
       "isNotificationsOn": false,
-      "notificationsTime": DateTime.now().millisecondsSinceEpoch,
+      "notificationsTime": DateTime.now().millisecondsSinceEpoch.toString(),
     };
     final settings =
         _settings.get(APP_SETTINGS_KEY, defaultValue: defaultSettings);

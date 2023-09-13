@@ -15,5 +15,4 @@ class AppSettingsModel with _$AppSettingsModel {
       _$AppSettingsModelFromJson(json);
 }
 
-DateTime _createdOnFromJson(DateTime time) =>
-    DateTime.fromMillisecondsSinceEpoch(time.millisecondsSinceEpoch);
+DateTime _createdOnFromJson(String dateTime) => DateTime.parse(dateTime);

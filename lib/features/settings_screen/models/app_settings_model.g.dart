@@ -11,7 +11,7 @@ _$_AppSettingsModel _$$_AppSettingsModelFromJson(Map<String, dynamic> json) =>
       isDarkTheme: json['isDarkTheme'] as bool,
       isNotificationsOn: json['isNotificationsOn'] as bool,
       notificationsTime:
-          _createdOnFromJson(json['notificationsTime'] as DateTime),
+          _createdOnFromJson(json['notificationsTime'] as String),
     );
 
 Map<String, dynamic> _$$_AppSettingsModelToJson(_$_AppSettingsModel instance) =>

@@ -5,6 +5,7 @@ import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:kaleidoku/core/styles/sizes.dart';
 import 'package:kaleidoku/core/styles/text_styles.dart';
+import 'package:kaleidoku/core/utils/logger.dart';
 import 'package:kaleidoku/core/utils/validators.dart';
 import 'package:kaleidoku/core/widgets/app_button.dart';
 import 'package:kaleidoku/core/widgets/appbar.dart';
@@ -110,14 +111,16 @@ class _SettingsScreenBodyState extends State<SettingsScreenBody> {
                                           showSecondsColumn: false,
                                           showTitleActions: true,
                                           onConfirm: (date) {
-                                        print('confirm $date');
+                                        logger.d('confirm $date');
                                       },
                                           currentTime: DateTime.now(),
                                           locale: LocaleType.en);
                                     },
-                                    child: const Text(
-                                      'Select Time',
-                                      style: TextStyle(color: Colors.blue),
+                                    //TODO: convert date time to only time
+                                    child: Text(
+                                      appSettings.notificationsTime.toString(),
+                                      style:
+                                          const TextStyle(color: Colors.blue),
                                     )),
                               ));
                         },

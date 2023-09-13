@@ -21,8 +21,7 @@ AppSettingsModel _$AppSettingsModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AppSettingsModel {
   bool get isDarkTheme => throw _privateConstructorUsedError;
-  bool get isNotificationsOn =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  bool get isNotificationsOn => throw _privateConstructorUsedError;
   @JsonKey(fromJson: _createdOnFromJson)
   DateTime get notificationsTime => throw _privateConstructorUsedError;
 
@@ -139,7 +138,6 @@ class _$_AppSettingsModel implements _AppSettingsModel {
   final bool isDarkTheme;
   @override
   final bool isNotificationsOn;
-// ignore: invalid_annotation_target
   @override
   @JsonKey(fromJson: _createdOnFromJson)
   final DateTime notificationsTime;
@@ -195,7 +193,7 @@ abstract class _AppSettingsModel implements AppSettingsModel {
   bool get isDarkTheme;
   @override
   bool get isNotificationsOn;
-  @override // ignore: invalid_annotation_target
+  @override
   @JsonKey(fromJson: _createdOnFromJson)
   DateTime get notificationsTime;
   @override
