@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:kaleidoku/core/utils/logger.dart';
 import 'package:kaleidoku/features/levels_screen/cubits/puzzle_cubits/cubit/puzzle_cubit.dart';
 import 'package:kaleidoku/features/levels_screen/models/puzzle_model.dart';
 import 'package:kaleidoku/features/levels_screen/services/local_services/puzzle_hive_service.dart';
@@ -15,13 +16,17 @@ void main() async {
 }
 
 Future<void> setupHive() async {
-  await Hive.initFlutter();
-  await Hive.openBox('puzzles');
-  await Hive.openBox('defaultPuzzlesAdded');
-  await Hive.openBox('appSettings');
-  Hive.registerAdapter(PuzzleModelAdapter());
-  Hive.registerAdapter(NewboardAdapter());
-  Hive.registerAdapter(GridAdapter());
+  try {
+    await Hive.initFlutter();
+    await Hive.openBox('puzzles');
+    await Hive.openBox('defaultPuzzlesAdded');
+    await Hive.openBox('appSettings');
+    Hive.registerAdapter(PuzzleModelAdapter());
+    Hive.registerAdapter(NewboardAdapter());
+    Hive.registerAdapter(GridAdapter());
+  } catch (e) {
+    logger.d("Error initializing Hive: $e");
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -32,10 +37,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  void fetchAppTheme(BuildContext context) {
-    context.read<AppSettingsCubit>().getAppSettings();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -50,22 +51,22 @@ class _MyAppState extends State<MyApp> {
       ],
       child: Builder(
         builder: (innerContext) {
-          fetchAppTheme(innerContext);
+          innerContext.read<AppSettingsCubit>().getAppSettings();
           return BlocBuilder<AppSettingsCubit, AppSettingsState>(
-            buildWhen: (previous, current) => true,
+            buildWhen: (previous, current) => previous != current,
             builder: (innerContext, state) {
-              ThemeData themeData = ThemeData(
-                  primarySwatch: Colors.green, brightness: Brightness.light);
-              state.whenOrNull(
-                success: (appSettings) {
-                  if (appSettings.isDarkTheme) {
-                    themeData = ThemeData(
-                      primarySwatch: Colors.green,
-                      brightness: Brightness.dark,
-                    );
-                  }
-                },
+              ThemeData themeData = state.maybeWhen(
+                success: (appSettings) => appSettings.isDarkTheme
+                    ? ThemeData(
+                        primarySwatch: Colors.green,
+                        brightness: Brightness.dark)
+                    : ThemeData(
+                        primarySwatch: Colors.green,
+                        brightness: Brightness.light),
+                orElse: () => ThemeData(
+                    primarySwatch: Colors.green, brightness: Brightness.light),
               );
+
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 title: 'Kaleidoku',

@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'app_settings_model.g.dart';
 part 'app_settings_model.freezed.dart';
 
-@freezed
+@Freezed(fromJson: true, toJson: true)
 class AppSettingsModel with _$AppSettingsModel {
   const factory AppSettingsModel(
       {required bool isDarkTheme,

@@ -4,9 +4,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kaleidoku/core/utils/logger.dart';
 import 'package:kaleidoku/core/utils/parser.dart';
 import 'package:kaleidoku/features/settings_screen/models/app_settings_model.dart';
+import 'package:kaleidoku/features/settings_screen/utils/consts.dart';
 
 class SettingsHiveService {
-  final _settings = Hive.box('appSettings');
+  final _settings = Hive.box(APP_SETTINGS_BOX);
 
   Future<void> updateSettings(Map<String, dynamic> item) async {
     try {

@@ -106,7 +106,8 @@ class __$$_AppSettingsModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_AppSettingsModel implements _AppSettingsModel {
   const _$_AppSettingsModel(
       {required this.isDarkTheme, required this.isNotificationsOn});

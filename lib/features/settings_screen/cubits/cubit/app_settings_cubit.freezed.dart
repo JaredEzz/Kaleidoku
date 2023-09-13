@@ -462,6 +462,8 @@ abstract class _$$_SuccessCopyWith<$Res> {
       __$$_SuccessCopyWithImpl<$Res>;
   @useResult
   $Res call({AppSettingsModel appSettings});
+
+  $AppSettingsModelCopyWith<$Res> get appSettings;
 }
 
 /// @nodoc
@@ -474,14 +476,22 @@ class __$$_SuccessCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? appSettings = freezed,
+    Object? appSettings = null,
   }) {
     return _then(_$_Success(
-      freezed == appSettings
+      null == appSettings
           ? _value.appSettings
           : appSettings // ignore: cast_nullable_to_non_nullable
               as AppSettingsModel,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AppSettingsModelCopyWith<$Res> get appSettings {
+    return $AppSettingsModelCopyWith<$Res>(_value.appSettings, (value) {
+      return _then(_value.copyWith(appSettings: value));
+    });
   }
 }
 
@@ -503,13 +513,12 @@ class _$_Success implements _Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Success &&
-            const DeepCollectionEquality()
-                .equals(other.appSettings, appSettings));
+            (identical(other.appSettings, appSettings) ||
+                other.appSettings == appSettings));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(appSettings));
+  int get hashCode => Object.hash(runtimeType, appSettings);
 
   @JsonKey(ignore: true)
   @override
