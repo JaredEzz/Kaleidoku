@@ -21,7 +21,10 @@ AppSettingsModel _$AppSettingsModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AppSettingsModel {
   bool get isDarkTheme => throw _privateConstructorUsedError;
-  bool get isNotificationsOn => throw _privateConstructorUsedError;
+  bool get isNotificationsOn =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(fromJson: _createdOnFromJson)
+  DateTime get notificationsTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +38,10 @@ abstract class $AppSettingsModelCopyWith<$Res> {
           AppSettingsModel value, $Res Function(AppSettingsModel) then) =
       _$AppSettingsModelCopyWithImpl<$Res, AppSettingsModel>;
   @useResult
-  $Res call({bool isDarkTheme, bool isNotificationsOn});
+  $Res call(
+      {bool isDarkTheme,
+      bool isNotificationsOn,
+      @JsonKey(fromJson: _createdOnFromJson) DateTime notificationsTime});
 }
 
 /// @nodoc
@@ -53,6 +59,7 @@ class _$AppSettingsModelCopyWithImpl<$Res, $Val extends AppSettingsModel>
   $Res call({
     Object? isDarkTheme = null,
     Object? isNotificationsOn = null,
+    Object? notificationsTime = null,
   }) {
     return _then(_value.copyWith(
       isDarkTheme: null == isDarkTheme
@@ -63,6 +70,10 @@ class _$AppSettingsModelCopyWithImpl<$Res, $Val extends AppSettingsModel>
           ? _value.isNotificationsOn
           : isNotificationsOn // ignore: cast_nullable_to_non_nullable
               as bool,
+      notificationsTime: null == notificationsTime
+          ? _value.notificationsTime
+          : notificationsTime // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -75,7 +86,10 @@ abstract class _$$_AppSettingsModelCopyWith<$Res>
       __$$_AppSettingsModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isDarkTheme, bool isNotificationsOn});
+  $Res call(
+      {bool isDarkTheme,
+      bool isNotificationsOn,
+      @JsonKey(fromJson: _createdOnFromJson) DateTime notificationsTime});
 }
 
 /// @nodoc
@@ -91,6 +105,7 @@ class __$$_AppSettingsModelCopyWithImpl<$Res>
   $Res call({
     Object? isDarkTheme = null,
     Object? isNotificationsOn = null,
+    Object? notificationsTime = null,
   }) {
     return _then(_$_AppSettingsModel(
       isDarkTheme: null == isDarkTheme
@@ -101,16 +116,21 @@ class __$$_AppSettingsModelCopyWithImpl<$Res>
           ? _value.isNotificationsOn
           : isNotificationsOn // ignore: cast_nullable_to_non_nullable
               as bool,
+      notificationsTime: null == notificationsTime
+          ? _value.notificationsTime
+          : notificationsTime // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class _$_AppSettingsModel implements _AppSettingsModel {
   const _$_AppSettingsModel(
-      {required this.isDarkTheme, required this.isNotificationsOn});
+      {required this.isDarkTheme,
+      required this.isNotificationsOn,
+      @JsonKey(fromJson: _createdOnFromJson) required this.notificationsTime});
 
   factory _$_AppSettingsModel.fromJson(Map<String, dynamic> json) =>
       _$$_AppSettingsModelFromJson(json);
@@ -119,10 +139,14 @@ class _$_AppSettingsModel implements _AppSettingsModel {
   final bool isDarkTheme;
   @override
   final bool isNotificationsOn;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(fromJson: _createdOnFromJson)
+  final DateTime notificationsTime;
 
   @override
   String toString() {
-    return 'AppSettingsModel(isDarkTheme: $isDarkTheme, isNotificationsOn: $isNotificationsOn)';
+    return 'AppSettingsModel(isDarkTheme: $isDarkTheme, isNotificationsOn: $isNotificationsOn, notificationsTime: $notificationsTime)';
   }
 
   @override
@@ -133,12 +157,15 @@ class _$_AppSettingsModel implements _AppSettingsModel {
             (identical(other.isDarkTheme, isDarkTheme) ||
                 other.isDarkTheme == isDarkTheme) &&
             (identical(other.isNotificationsOn, isNotificationsOn) ||
-                other.isNotificationsOn == isNotificationsOn));
+                other.isNotificationsOn == isNotificationsOn) &&
+            (identical(other.notificationsTime, notificationsTime) ||
+                other.notificationsTime == notificationsTime));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, isDarkTheme, isNotificationsOn);
+  int get hashCode => Object.hash(
+      runtimeType, isDarkTheme, isNotificationsOn, notificationsTime);
 
   @JsonKey(ignore: true)
   @override
@@ -157,7 +184,9 @@ class _$_AppSettingsModel implements _AppSettingsModel {
 abstract class _AppSettingsModel implements AppSettingsModel {
   const factory _AppSettingsModel(
       {required final bool isDarkTheme,
-      required final bool isNotificationsOn}) = _$_AppSettingsModel;
+      required final bool isNotificationsOn,
+      @JsonKey(fromJson: _createdOnFromJson)
+      required final DateTime notificationsTime}) = _$_AppSettingsModel;
 
   factory _AppSettingsModel.fromJson(Map<String, dynamic> json) =
       _$_AppSettingsModel.fromJson;
@@ -166,6 +195,9 @@ abstract class _AppSettingsModel implements AppSettingsModel {
   bool get isDarkTheme;
   @override
   bool get isNotificationsOn;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(fromJson: _createdOnFromJson)
+  DateTime get notificationsTime;
   @override
   @JsonKey(ignore: true)
   _$$_AppSettingsModelCopyWith<_$_AppSettingsModel> get copyWith =>

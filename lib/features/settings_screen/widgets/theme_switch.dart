@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kaleidoku/features/settings_screen/cubits/cubit/app_settings_cubit.dart';
@@ -14,13 +16,12 @@ class ThemeSwitch extends StatefulWidget {
 
 class ThemeSwitchState extends State<ThemeSwitch> {
   bool _isDarkTheme = false;
-  bool _isNotificationOn = false;
+  Timer? debounce;
 
   @override
   void initState() {
     super.initState();
     _isDarkTheme = widget.appSettingsModel.isDarkTheme;
-    _isNotificationOn = widget.appSettingsModel.isNotificationsOn;
   }
 
   @override
@@ -31,10 +32,9 @@ class ThemeSwitchState extends State<ThemeSwitch> {
         setState(() {
           _isDarkTheme = value;
         });
-
-        context.read<AppSettingsCubit>().updateAppSettings(item: {
-          "isNotificationsOn": _isNotificationOn,
-          "isDarkTheme": value
+        debounce?.cancel();
+        debounce = Timer(const Duration(milliseconds: 300), () {
+          context.read<AppSettingsCubit>().updateTheme(value: value);
         });
       },
     );

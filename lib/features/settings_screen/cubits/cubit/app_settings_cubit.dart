@@ -25,11 +25,26 @@ class AppSettingsCubit extends Cubit<AppSettingsState> {
     }
   }
 
-  Future<void> updateAppSettings({required Map<String, dynamic> item}) async {
+  Future<void> updateNotifications({required bool value}) async {
     try {
       logger.d('Attempting to update app settings');
       emit(const AppSettingsState.loading());
-      await service.updateSettings(item);
+      await service.updateNotifications(value);
+      final result = service.getAppSettings();
+      emit(AppSettingsState.success(result));
+      logger.d('Successfully updated app settings');
+    } catch (e, st) {
+      logger.d('Error: Failed to update app settings',
+          error: e, stackTrace: st);
+      emit(AppSettingsState.error(e.toString()));
+    }
+  }
+
+  Future<void> updateTheme({required bool value}) async {
+    try {
+      logger.d('Attempting to update app settings');
+      emit(const AppSettingsState.loading());
+      await service.updateTheme(value);
       final result = service.getAppSettings();
       emit(AppSettingsState.success(result));
       logger.d('Successfully updated app settings');

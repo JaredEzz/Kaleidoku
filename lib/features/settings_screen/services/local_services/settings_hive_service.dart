@@ -9,22 +9,36 @@ import 'package:kaleidoku/features/settings_screen/utils/consts.dart';
 class SettingsHiveService {
   final _settings = Hive.box(APP_SETTINGS_BOX);
 
-  Future<void> updateSettings(Map<String, dynamic> item) async {
+  Future<void> _updateSettings(Map<String, dynamic> updates) async {
     try {
-      logger.d('Updating settings');
-      await _settings.put('appSettings', item);
-      logger.d('Successfully updated settings');
+      final currentSettings = getAppSettings().toJson();
+      final updatedSettings = {...currentSettings, ...updates};
+      await _settings.put(APP_SETTINGS_KEY, updatedSettings);
     } catch (e, st) {
       logger.d('Failed to update settings', error: e, stackTrace: st);
     }
   }
 
+  Future<void> updateNotificationsTime(DateTime time) async {
+    await _updateSettings({"notificationsTime": time.millisecondsSinceEpoch});
+  }
+
+  Future<void> updateNotifications(bool value) async {
+    await _updateSettings({"isNotificationsOn": value});
+  }
+
+  Future<void> updateTheme(bool value) async {
+    await _updateSettings({"isDarkTheme": value});
+  }
+
   AppSettingsModel getAppSettings() {
-    final defaultSettingsAdded = _settings.get('appSettings', defaultValue: {
+    final defaultSettings = {
       "isDarkTheme": false,
       "isNotificationsOn": false,
-    });
-
-    return AppSettingsModel.fromJson(parser(defaultSettingsAdded));
+      "notificationsTime": DateTime.now().millisecondsSinceEpoch,
+    };
+    final settings =
+        _settings.get(APP_SETTINGS_KEY, defaultValue: defaultSettings);
+    return AppSettingsModel.fromJson(parser(settings));
   }
 }

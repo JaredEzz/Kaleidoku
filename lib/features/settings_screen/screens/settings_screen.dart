@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:kaleidoku/core/styles/sizes.dart';
 import 'package:kaleidoku/core/styles/text_styles.dart';
@@ -81,6 +82,44 @@ class _SettingsScreenBodyState extends State<SettingsScreenBody> {
                         success: (appSettings) {
                           return NotificationSwitch(
                               appSettingsModel: appSettings);
+                        },
+                        orElse: () => const SizedBox.shrink());
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(width: PaddingSizes.xxs),
+                BlocBuilder<AppSettingsCubit, AppSettingsState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                        success: (appSettings) {
+                          return Visibility(
+                              visible: appSettings.isNotificationsOn,
+                              maintainState: true,
+                              maintainAnimation: true,
+                              child: AnimatedOpacity(
+                                opacity:
+                                    appSettings.isNotificationsOn ? 1.0 : 0.0,
+                                duration: const Duration(milliseconds: 500),
+                                child: TextButton(
+                                    onPressed: () {
+                                      DatePicker.showTimePicker(context,
+                                          showSecondsColumn: false,
+                                          showTitleActions: true,
+                                          onConfirm: (date) {
+                                        print('confirm $date');
+                                      },
+                                          currentTime: DateTime.now(),
+                                          locale: LocaleType.en);
+                                    },
+                                    child: const Text(
+                                      'Select Time',
+                                      style: TextStyle(color: Colors.blue),
+                                    )),
+                              ));
                         },
                         orElse: () => const SizedBox.shrink());
                   },
