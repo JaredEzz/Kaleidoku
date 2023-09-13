@@ -9,9 +9,13 @@ class SettingsHiveService {
   final _settings = Hive.box('appSettings');
 
   Future<void> updateSettings(Map<String, dynamic> item) async {
-    logger.d('Updating settings');
-    await _settings.put('appSettings', item);
-    logger.d('Successfully updated settings');
+    try {
+      logger.d('Updating settings');
+      await _settings.put('appSettings', item);
+      logger.d('Successfully updated settings');
+    } catch (e, st) {
+      logger.d('Failed to update settings', error: e, stackTrace: st);
+    }
   }
 
   AppSettingsModel getAppSettings() {
