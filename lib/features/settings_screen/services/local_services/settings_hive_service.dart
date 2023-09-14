@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kaleidoku/core/utils/logger.dart';
 import 'package:kaleidoku/core/utils/parser.dart';
@@ -19,9 +20,8 @@ class SettingsHiveService {
     }
   }
 
-  Future<void> updateNotificationsTime(DateTime time) async {
-    await _updateSettings(
-        {"notificationsTime": time.millisecondsSinceEpoch.toString()});
+  Future<void> updateNotificationsTime(String time) async {
+    await _updateSettings({"notificationsTime": time});
   }
 
   Future<void> updateNotifications(bool value) async {
@@ -36,7 +36,7 @@ class SettingsHiveService {
     final defaultSettings = {
       "isDarkTheme": false,
       "isNotificationsOn": false,
-      "notificationsTime": DateTime.now().millisecondsSinceEpoch.toString(),
+      "notificationsTime": TimeOfDay.fromDateTime(DateTime.now()),
     };
     final settings =
         _settings.get(APP_SETTINGS_KEY, defaultValue: defaultSettings);

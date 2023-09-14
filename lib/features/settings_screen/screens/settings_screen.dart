@@ -5,6 +5,7 @@ import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:kaleidoku/core/styles/sizes.dart';
 import 'package:kaleidoku/core/styles/text_styles.dart';
+import 'package:kaleidoku/core/utils/formatted_date_time.dart';
 import 'package:kaleidoku/core/utils/logger.dart';
 import 'package:kaleidoku/core/utils/validators.dart';
 import 'package:kaleidoku/core/widgets/app_button.dart';
@@ -111,14 +112,19 @@ class _SettingsScreenBodyState extends State<SettingsScreenBody> {
                                           showSecondsColumn: false,
                                           showTitleActions: true,
                                           onConfirm: (date) {
-                                        logger.d('confirm $date');
-                                      },
-                                          currentTime: DateTime.now(),
-                                          locale: LocaleType.en);
+                                        context
+                                            .read<AppSettingsCubit>()
+                                            .updateNotificaitonsTime(
+                                                time:
+                                                    TimeOfDay.fromDateTime(date)
+                                                        .format(context));
+                                        logger.d(
+                                            'confirm ${TimeOfDay.fromDateTime(date).format(context)}');
+                                      }, locale: LocaleType.en);
                                     },
-                                    //TODO: convert date time to only time
                                     child: Text(
-                                      appSettings.notificationsTime.toString(),
+                                      formatTimeOfDayString(
+                                          appSettings.notificationsTime),
                                       style:
                                           const TextStyle(color: Colors.blue),
                                     )),

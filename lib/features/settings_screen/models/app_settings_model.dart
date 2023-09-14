@@ -8,11 +8,9 @@ class AppSettingsModel with _$AppSettingsModel {
     required bool isDarkTheme,
     required bool isNotificationsOn,
     // ignore: invalid_annotation_target
-    @JsonKey(fromJson: _createdOnFromJson) required DateTime notificationsTime,
+    required String notificationsTime,
   }) = _AppSettingsModel;
 
   factory AppSettingsModel.fromJson(Map<String, dynamic> json) =>
       _$AppSettingsModelFromJson(json);
 }
-
-DateTime _createdOnFromJson(String dateTime) => DateTime.parse(dateTime);
