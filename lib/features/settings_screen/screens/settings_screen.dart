@@ -113,20 +113,22 @@ class _SettingsScreenBodyState extends State<SettingsScreenBody> {
                                           showSecondsColumn: false,
                                           showTitleActions: true,
                                           onConfirm: (date) {
-                                        final notificationTime =
-                                            TimeOfDay.fromDateTime(date);
+                                        // final notificationTime =
+                                        //     TimeOfDay.fromDateTime(date);
+                                        final notificationTime = date;
                                         context
                                             .read<AppSettingsCubit>()
                                             .updateNotificaitonsTime(
                                                 time: notificationTime
-                                                    .format(context));
+                                                    .toIso8601String());
 
                                         NotificationService().scheduleNotification(
                                             1,
                                             'Puzzle of the day',
                                             'Your daily puzzle is available now',
                                             DateTime.now(),
-                                            notificationTime,
+                                            TimeOfDay.fromDateTime(
+                                                notificationTime),
                                             'puzzle',
                                             'daily',
                                             null,

@@ -5,17 +5,25 @@ import 'package:kaleidoku/core/services/api_services/get_puzzle_api_service.dart
 import 'package:kaleidoku/core/utils/logger.dart';
 import 'package:kaleidoku/core/utils/parser.dart';
 import 'package:kaleidoku/features/levels_screen/models/puzzle_model.dart';
+import 'package:kaleidoku/features/settings_screen/services/local_services/settings_hive_service.dart';
 
 class PuzzleOfTheDayHiveService {
   final _puzzleApiService = PuzzleApiService();
   final _puzzleOfTheDay = Hive.box('puzzleOfTheDay');
+  final SettingsHiveService service = SettingsHiveService();
 
   FutureOr<PuzzleModel> getPuzzleFromHive() async {
-    if (_puzzleOfTheDay.isEmpty) {
+    if (_puzzleOfTheDay.values.isEmpty) {
       await getPuzzleFromApiAndAddToHive();
     }
+    //TODO: If current date time is 24 hours after notification time, Delete puzzle and fetch new puzzle
     final result = _puzzleOfTheDay.get('puzzle');
-    return PuzzleModel.fromJson(parser(result));
+    final puzzle = PuzzleModel.fromJson(parser(result));
+    return puzzle;
+  }
+
+  Future<void> removePuzzle() async {
+    await _puzzleOfTheDay.delete('puzzle');
   }
 
   Future<void> getPuzzleFromApiAndAddToHive() async {

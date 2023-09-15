@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:kaleidoku/core/consts/consts.dart';
-import 'package:kaleidoku/features/puzzle_of_the_day/cubits/cubit/puzzle_of_the_day_cubit.dart';
 import 'package:kaleidoku/features/puzzle_of_the_day/services/local_services/puzzle_of_the_day_hive_service.dart';
 import 'package:kaleidoku/features/puzzle_of_the_day/utils/global.dart';
 import 'package:kaleidoku/features/sudoku_screen/screens/sudoku_screen.dart';
@@ -11,11 +10,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 @pragma('vm:entry-point')
-void backgroundNotificationHandler(NotificationResponse? details) async {
-  final puzzleCubit =
-      PuzzleOfTheDayCubit(puzzleHiveService: PuzzleOfTheDayHiveService());
-  await puzzleCubit.getPuzzleFromHive();
-}
+void backgroundNotificationHandler(NotificationResponse? details) async {}
 
 Future<void> onNotificationTapped(NotificationResponse? payload) async {
   if (payload!.payload == 'puzzle') {
@@ -206,9 +201,4 @@ class NotificationService {
         await FlutterLocalNotificationsPlugin().pendingNotificationRequests();
     return pendingNotificationRequests;
   }
-}
-
-Future<void> onSelectNotification(String? payload) async {
-  // await navigatorKey.currentState
-  //     ?.push(MaterialPageRoute(builder: (_) => DetailsPage(payload: payload)));
 }
