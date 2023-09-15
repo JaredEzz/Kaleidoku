@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kaleidoku/core/services/api_services/get_puzzle_api_service.dart';
 import 'package:kaleidoku/core/utils/logger.dart';
+import 'package:kaleidoku/core/utils/parser.dart';
 import 'package:kaleidoku/features/levels_screen/models/puzzle_model.dart';
 
 class PuzzleOfTheDayHiveService {
@@ -14,7 +15,7 @@ class PuzzleOfTheDayHiveService {
       await getPuzzleFromApiAndAddToHive();
     }
     final result = _puzzleOfTheDay.get('puzzle');
-    return PuzzleModel.fromJson(result);
+    return PuzzleModel.fromJson(parser(result));
   }
 
   Future<void> getPuzzleFromApiAndAddToHive() async {

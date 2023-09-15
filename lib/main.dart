@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:kaleidoku/core/consts/consts.dart';
 import 'package:kaleidoku/core/utils/logger.dart';
 import 'package:kaleidoku/features/levels_screen/cubits/puzzle_cubits/cubit/puzzle_cubit.dart';
 import 'package:kaleidoku/features/levels_screen/models/puzzle_model.dart';
 import 'package:kaleidoku/features/levels_screen/services/local_services/puzzle_hive_service.dart';
+import 'package:kaleidoku/features/puzzle_of_the_day/services/local_services/puzzle_of_the_day_hive_service.dart';
 import 'package:kaleidoku/features/puzzle_of_the_day/services/notification_services/flutter_local_notifications_service.dart';
+import 'package:kaleidoku/features/puzzle_of_the_day/utils/global.dart';
 import 'package:kaleidoku/features/settings_screen/cubits/cubit/app_settings_cubit.dart';
 import 'package:kaleidoku/features/settings_screen/services/local_services/settings_hive_service.dart';
+import 'package:kaleidoku/features/sudoku_screen/screens/sudoku_screen.dart';
 import 'features/welcome_screen/widgets/animation.dart';
 
 void main() async {
@@ -21,6 +25,16 @@ Future<void> initNotifications() async {
   NotificationService notificationService = NotificationService();
   await notificationService.init();
   await notificationService.requestIOSPermissions();
+
+  final initialNotification =
+      await notificationService.getInitialNotification();
+
+  if (initialNotification?.payload == 'puzzle') {
+    final puzzleHiveService = PuzzleOfTheDayHiveService();
+    final puzzle = await puzzleHiveService.getPuzzleFromHive();
+    globalNotificationPayload = initialNotification!.payload;
+    puzzleOfTheDay = puzzle;
+  }
 }
 
 Future<void> setupHive() async {
@@ -29,7 +43,6 @@ Future<void> setupHive() async {
     await Hive.openBox('puzzles');
     await Hive.openBox('defaultPuzzlesAdded');
     await Hive.openBox('appSettings');
-    // await Hive.deleteBoxFromDisk('appSettings');
     await Hive.openBox('puzzleOfTheDay');
     Hive.registerAdapter(PuzzleModelAdapter());
     Hive.registerAdapter(NewboardAdapter());
@@ -47,6 +60,24 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    navigate();
+  }
+
+  Future<void> navigate() async {
+    if (globalNotificationPayload == 'puzzle') {
+      await Future.delayed(const Duration(milliseconds: 1000), () async {
+        navigatorKey.currentState?.push(MaterialPageRoute(
+          builder: (context) =>
+              SudokuScreen(puzzleGrid: puzzleOfTheDay!.newboard.grids.first),
+        ));
+      });
+      globalNotificationPayload = null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -78,6 +109,7 @@ class _MyAppState extends State<MyApp> {
                 },
               );
               return MaterialApp(
+                navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,
                 title: 'Kaleidoku',
                 theme: themeData,

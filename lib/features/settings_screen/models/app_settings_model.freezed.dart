@@ -133,7 +133,6 @@ class _$_AppSettingsModel implements _AppSettingsModel {
   final bool isDarkTheme;
   @override
   final bool isNotificationsOn;
-
   @override
   final String notificationsTime;
 

@@ -156,7 +156,7 @@ _$_Grid _$$_GridFromJson(Map<String, dynamic> json) => _$_Grid(
           .map((e) => (e as List<dynamic>).map((e) => e as int).toList())
           .toList(),
       difficulty: json['difficulty'] as String,
-      number: json['number'] as int,
+      number: _numberFromJson(json['number']),
     );
 
 Map<String, dynamic> _$$_GridToJson(_$_Grid instance) => <String, dynamic>{

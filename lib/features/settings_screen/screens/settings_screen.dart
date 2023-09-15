@@ -3,13 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:kaleidoku/core/styles/sizes.dart';
 import 'package:kaleidoku/core/styles/text_styles.dart';
 import 'package:kaleidoku/core/utils/formatted_date_time.dart';
-import 'package:kaleidoku/core/utils/logger.dart';
 import 'package:kaleidoku/core/utils/validators.dart';
 import 'package:kaleidoku/core/widgets/app_button.dart';
 import 'package:kaleidoku/core/widgets/appbar.dart';
+import 'package:kaleidoku/features/puzzle_of_the_day/services/notification_services/flutter_local_notifications_service.dart';
 import 'package:kaleidoku/features/settings_screen/cubits/cubit/app_settings_cubit.dart';
 import 'package:kaleidoku/features/settings_screen/widgets/notification_switch.dart';
 import 'package:kaleidoku/features/settings_screen/widgets/theme_switch.dart';
@@ -112,14 +113,24 @@ class _SettingsScreenBodyState extends State<SettingsScreenBody> {
                                           showSecondsColumn: false,
                                           showTitleActions: true,
                                           onConfirm: (date) {
+                                        final notificationTime =
+                                            TimeOfDay.fromDateTime(date);
                                         context
                                             .read<AppSettingsCubit>()
                                             .updateNotificaitonsTime(
-                                                time:
-                                                    TimeOfDay.fromDateTime(date)
-                                                        .format(context));
-                                        logger.d(
-                                            'confirm ${TimeOfDay.fromDateTime(date).format(context)}');
+                                                time: notificationTime
+                                                    .format(context));
+
+                                        NotificationService().scheduleNotification(
+                                            1,
+                                            'Puzzle of the day',
+                                            'Your daily puzzle is available now',
+                                            DateTime.now(),
+                                            notificationTime,
+                                            'puzzle',
+                                            'daily',
+                                            null,
+                                            DateTimeComponents.time);
                                       }, locale: LocaleType.en);
                                     },
                                     child: Text(

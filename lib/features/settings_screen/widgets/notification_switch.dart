@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kaleidoku/features/puzzle_of_the_day/services/notification_services/flutter_local_notifications_service.dart';
 import 'package:kaleidoku/features/settings_screen/cubits/cubit/app_settings_cubit.dart';
 import 'package:kaleidoku/features/settings_screen/models/app_settings_model.dart';
 
@@ -32,6 +33,9 @@ class ThemeSwitchState extends State<NotificationSwitch> {
         setState(() {
           _isNotificationOn = value;
         });
+        if (value == false) {
+          NotificationService().cancelAllNotifications();
+        }
         debounce?.cancel();
         debounce = Timer(const Duration(milliseconds: 250), () {
           context.read<AppSettingsCubit>().updateNotifications(value: value);

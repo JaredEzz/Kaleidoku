@@ -32,8 +32,17 @@ class Grid with _$Grid {
     @HiveField(0) required List<List<int>> value,
     @HiveField(1) required List<List<int>> solution,
     @HiveField(2) required String difficulty,
-    @HiveField(3) required int number,
+    // ignore: invalid_annotation_target
+    @JsonKey(fromJson: _numberFromJson) @HiveField(3) required int number,
   }) = _Grid;
 
   factory Grid.fromJson(Map<String, dynamic> json) => _$GridFromJson(json);
+}
+
+int _numberFromJson(dynamic json) {
+  if (json == null) {
+    return 0;
+  } else {
+    return json as int;
+  }
 }
