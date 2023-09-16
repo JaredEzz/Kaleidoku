@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kaleidoku/core/utils/logger.dart';
 import 'package:kaleidoku/core/utils/parser.dart';
@@ -36,7 +34,7 @@ class SettingsHiveService {
     final defaultSettings = {
       "isDarkTheme": false,
       "isNotificationsOn": false,
-      "notificationsTime": TimeOfDay.fromDateTime(DateTime.now()),
+      "notificationsTime": DateTime.now().toString(),
     };
     final settings =
         _settings.get(APP_SETTINGS_KEY, defaultValue: defaultSettings);

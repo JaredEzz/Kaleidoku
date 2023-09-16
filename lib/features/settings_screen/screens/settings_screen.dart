@@ -137,7 +137,10 @@ class _SettingsScreenBodyState extends State<SettingsScreenBody> {
                                     },
                                     child: Text(
                                       formatTimeOfDayString(
-                                          appSettings.notificationsTime),
+                                          TimeOfDay.fromDateTime(DateTime.parse(
+                                                  appSettings
+                                                      .notificationsTime))
+                                              .toString()),
                                       style:
                                           const TextStyle(color: Colors.blue),
                                     )),

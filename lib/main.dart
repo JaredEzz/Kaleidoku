@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -24,7 +26,11 @@ void main() async {
 Future<void> initNotifications() async {
   NotificationService notificationService = NotificationService();
   await notificationService.init();
-  await notificationService.requestIOSPermissions();
+  if (Platform.isIOS) {
+    await notificationService.requestIOSPermissions();
+  } else {
+    await notificationService.requestAndroidPermission();
+  }
 
   final initialNotification =
       await notificationService.getInitialNotification();
@@ -68,7 +74,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> navigate() async {
     if (globalNotificationPayload == 'puzzle') {
-      await Future.delayed(const Duration(milliseconds: 1000), () async {
+      await Future.delayed(const Duration(milliseconds: 2000), () async {
         navigatorKey.currentState?.push(MaterialPageRoute(
           builder: (context) =>
               SudokuScreen(puzzleGrid: puzzleOfTheDay!.newboard.grids.first),

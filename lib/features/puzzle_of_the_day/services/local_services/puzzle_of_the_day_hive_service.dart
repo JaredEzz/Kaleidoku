@@ -13,17 +13,24 @@ class PuzzleOfTheDayHiveService {
   final SettingsHiveService service = SettingsHiveService();
 
   FutureOr<PuzzleModel> getPuzzleFromHive() async {
-    if (_puzzleOfTheDay.values.isEmpty) {
-      await getPuzzleFromApiAndAddToHive();
+    try {
+      final appSettings = service.getAppSettings();
+      final notificationsTime = DateTime.parse(appSettings.notificationsTime)
+          .add(const Duration(days: 1));
+      if (notificationsTime
+          .isBefore(DateTime.now().add(const Duration(seconds: 60)))) {
+        _puzzleOfTheDay.delete('puzzle');
+      }
+      if (_puzzleOfTheDay.values.isEmpty) {
+        await getPuzzleFromApiAndAddToHive();
+      }
+      final result = _puzzleOfTheDay.get('puzzle');
+      final puzzle = PuzzleModel.fromJson(parser(result));
+      return puzzle;
+    } catch (e, st) {
+      logger.d('Error', error: e, stackTrace: st);
+      return Future.error('error');
     }
-    //TODO: If current date time is 24 hours after notification time, Delete puzzle and fetch new puzzle
-    final result = _puzzleOfTheDay.get('puzzle');
-    final puzzle = PuzzleModel.fromJson(parser(result));
-    return puzzle;
-  }
-
-  Future<void> removePuzzle() async {
-    await _puzzleOfTheDay.delete('puzzle');
   }
 
   Future<void> getPuzzleFromApiAndAddToHive() async {
