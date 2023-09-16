@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kaleidoku/core/styles/sizes.dart';
 import 'package:kaleidoku/core/styles/text_styles.dart';
+import 'package:kaleidoku/core/widgets/app_button.dart';
 import 'package:kaleidoku/features/levels_screen/models/puzzle_model.dart';
 import 'package:kaleidoku/features/levels_screen/utils/get_level_color.dart';
+import 'package:kaleidoku/features/puzzle_of_the_day/cubits/cubit/puzzle_of_the_day_cubit.dart';
 import 'package:kaleidoku/features/sudoku_screen/screens/sudoku_screen.dart';
 import 'dart:math' as math;
 
@@ -19,6 +22,7 @@ class _LevelScreenBodyState extends State<LevelScreenBody> {
   late List<Grid> easyPuzzles;
   late List<Grid> mediumPuzzles;
   late List<Grid> hardPuzzles;
+  bool isFetchingPuzzle = false;
 
   @override
   void initState() {
@@ -113,7 +117,62 @@ class _LevelScreenBodyState extends State<LevelScreenBody> {
                   ),
                 );
               },
-            )
+            ),
+            BlocConsumer<PuzzleOfTheDayCubit, PuzzleOfTheDayState>(
+              listener: (context, state) {
+                state.maybeWhen(
+                    success: (puzzle) => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SudokuScreen(
+                                puzzleGrid: puzzle.newboard.grids.first))),
+                    orElse: () => null);
+              },
+              builder: (context, state) {
+                return state.maybeWhen(
+                    success: (puzzle) {
+                      return SizedBox(
+                          height: 60,
+                          width: 260,
+                          child: AppButton(
+                            onTap: () async {
+                              setState(() {
+                                isFetchingPuzzle = true;
+                              });
+                              await context
+                                  .read<PuzzleOfTheDayCubit>()
+                                  .getPuzzleFromHive();
+                              setState(() {
+                                isFetchingPuzzle = false;
+                              });
+                            },
+                            title: 'Puzzle of the day',
+                            textStyle: AppTextStyles().mRegular,
+                          ));
+                    },
+                    orElse: () => isFetchingPuzzle
+                        ? const Center(child: CircularProgressIndicator())
+                        : SizedBox(
+                            height: 60,
+                            width: 260,
+                            child: AppButton(
+                              onTap: () async {
+                                setState(() {
+                                  isFetchingPuzzle = true;
+                                });
+                                await context
+                                    .read<PuzzleOfTheDayCubit>()
+                                    .getPuzzleFromHive();
+                                setState(() {
+                                  isFetchingPuzzle = false;
+                                });
+                              },
+                              title: 'Puzzle of the day',
+                              textStyle: AppTextStyles().mRegular,
+                            )));
+              },
+            ),
+            const SizedBox(height: PaddingSizes.xxxl),
           ]),
         ));
   }

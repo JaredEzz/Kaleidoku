@@ -8,6 +8,7 @@ import 'package:kaleidoku/core/utils/logger.dart';
 import 'package:kaleidoku/features/levels_screen/cubits/puzzle_cubits/cubit/puzzle_cubit.dart';
 import 'package:kaleidoku/features/levels_screen/models/puzzle_model.dart';
 import 'package:kaleidoku/features/levels_screen/services/local_services/puzzle_hive_service.dart';
+import 'package:kaleidoku/features/puzzle_of_the_day/cubits/cubit/puzzle_of_the_day_cubit.dart';
 import 'package:kaleidoku/features/puzzle_of_the_day/services/local_services/puzzle_of_the_day_hive_service.dart';
 import 'package:kaleidoku/features/puzzle_of_the_day/services/notification_services/flutter_local_notifications_service.dart';
 import 'package:kaleidoku/features/puzzle_of_the_day/utils/global.dart';
@@ -95,6 +96,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<AppSettingsCubit>(
             create: (context) =>
                 AppSettingsCubit(service: SettingsHiveService())),
+        BlocProvider<PuzzleOfTheDayCubit>(
+            create: (context) => PuzzleOfTheDayCubit(
+                puzzleHiveService: PuzzleOfTheDayHiveService())),
       ],
       child: Builder(
         builder: (innerContext) {
