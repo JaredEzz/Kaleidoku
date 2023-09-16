@@ -12,10 +12,10 @@ class NotificationSwitch extends StatefulWidget {
   const NotificationSwitch({super.key, required this.appSettingsModel});
 
   @override
-  ThemeSwitchState createState() => ThemeSwitchState();
+  NotificationSwitchState createState() => NotificationSwitchState();
 }
 
-class ThemeSwitchState extends State<NotificationSwitch> {
+class NotificationSwitchState extends State<NotificationSwitch> {
   bool _isNotificationOn = false;
   Timer? debounce;
 
@@ -23,6 +23,12 @@ class ThemeSwitchState extends State<NotificationSwitch> {
   void initState() {
     super.initState();
     _isNotificationOn = widget.appSettingsModel.isNotificationsOn;
+  }
+
+  @override
+  void dispose() {
+    debounce?.cancel();
+    super.dispose();
   }
 
   @override

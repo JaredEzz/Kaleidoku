@@ -25,6 +25,12 @@ class ThemeSwitchState extends State<ThemeSwitch> {
   }
 
   @override
+  void dispose() {
+    debounce?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Switch(
       value: _isDarkTheme,
