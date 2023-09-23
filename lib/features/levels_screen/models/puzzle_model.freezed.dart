@@ -324,6 +324,7 @@ mixin _$Grid {
   List<List<int>> get solution => throw _privateConstructorUsedError;
   @HiveField(2)
   String get difficulty => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: _numberFromJson)
   @HiveField(3)
   int get number => throw _privateConstructorUsedError;
 
@@ -341,7 +342,7 @@ abstract class $GridCopyWith<$Res> {
       {@HiveField(0) List<List<int>> value,
       @HiveField(1) List<List<int>> solution,
       @HiveField(2) String difficulty,
-      @HiveField(3) int number});
+      @JsonKey(fromJson: _numberFromJson) @HiveField(3) int number});
 }
 
 /// @nodoc
@@ -393,7 +394,7 @@ abstract class _$$_GridCopyWith<$Res> implements $GridCopyWith<$Res> {
       {@HiveField(0) List<List<int>> value,
       @HiveField(1) List<List<int>> solution,
       @HiveField(2) String difficulty,
-      @HiveField(3) int number});
+      @JsonKey(fromJson: _numberFromJson) @HiveField(3) int number});
 }
 
 /// @nodoc
@@ -438,7 +439,7 @@ class _$_Grid implements _Grid {
       {@HiveField(0) required final List<List<int>> value,
       @HiveField(1) required final List<List<int>> solution,
       @HiveField(2) required this.difficulty,
-      @HiveField(3) required this.number})
+      @JsonKey(fromJson: _numberFromJson) @HiveField(3) required this.number})
       : _value = value,
         _solution = solution;
 
@@ -466,6 +467,7 @@ class _$_Grid implements _Grid {
   @HiveField(2)
   final String difficulty;
   @override
+  @JsonKey(fromJson: _numberFromJson)
   @HiveField(3)
   final int number;
 
@@ -514,7 +516,9 @@ abstract class _Grid implements Grid {
       {@HiveField(0) required final List<List<int>> value,
       @HiveField(1) required final List<List<int>> solution,
       @HiveField(2) required final String difficulty,
-      @HiveField(3) required final int number}) = _$_Grid;
+      @JsonKey(fromJson: _numberFromJson)
+      @HiveField(3)
+      required final int number}) = _$_Grid;
 
   factory _Grid.fromJson(Map<String, dynamic> json) = _$_Grid.fromJson;
 
@@ -528,6 +532,7 @@ abstract class _Grid implements Grid {
   @HiveField(2)
   String get difficulty;
   @override
+  @JsonKey(fromJson: _numberFromJson)
   @HiveField(3)
   int get number;
   @override
